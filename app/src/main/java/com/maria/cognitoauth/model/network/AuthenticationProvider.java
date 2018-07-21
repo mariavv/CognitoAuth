@@ -2,10 +2,8 @@ package com.maria.cognitoauth.model.network;
 
 import android.content.Context;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.regions.Regions;
-import com.maria.cognitoauth.iview.MainView;
 
 public class AuthenticationProvider {
     private static final String USER_POOL_ID = "us-east-2_sI1ivFCf3";
