@@ -2,6 +2,7 @@ package com.maria.cognitoauth.model.network;
 
 import android.content.Context;
 
+import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.regions.Regions;
 
@@ -22,6 +23,10 @@ public class AuthenticationProvider {
         this.listener = listener;
 
         createCognitoUserPool(context);
+    }
+
+    public boolean userExists() {
+        return IdentityManager.getDefaultIdentityManager().isUserSignedIn();
     }
 
     private void createCognitoUserPool(Context context) {
