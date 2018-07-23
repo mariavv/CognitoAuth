@@ -14,7 +14,7 @@ public class AuthenticationProvider {
 
     private Listener listener;
 
-    CognitoUserPool userPool;
+    private CognitoUserPool userPool;
 
     public interface Listener {
     }

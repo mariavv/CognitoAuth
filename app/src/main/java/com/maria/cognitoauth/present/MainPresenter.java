@@ -19,19 +19,19 @@ public class MainPresenter implements AuthenticationProvider.Listener{
         sayHi(resGreeting);
     }
 
-    private void sayHi(int resGreeting) {
-        if (/*authProvider.userExists()*/false) {
-            //view.changeText((new AuthManager(this)).getEmail());
-        } else {
-            view.changeText(resGreeting);
-        }
-    }
-
     public void detachView() {
         view = null;
     }
 
     public void onResume(int resGreeting) {
         sayHi(resGreeting);
+    }
+
+    private void sayHi(int resGreeting) {
+        if (/*authProvider.userExists()*/false) {
+            //view.changeText((new AuthManager(this)).getEmail());
+        } else {
+            view.changeText(resGreeting);
+        }
     }
 }
