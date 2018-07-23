@@ -25,6 +25,15 @@ public class AuthenticationProvider {
         createCognitoUserPool(context);
     }
 
+    public void signOut() {
+    }
+
+    public void register(String login, String pass) {
+    }
+
+    public void signIn(String login, String pass) {
+    }
+
     public boolean userExists() {
         return IdentityManager.getDefaultIdentityManager().isUserSignedIn();
     }

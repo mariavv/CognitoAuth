@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorRivBorder">#333333</color>
+    <color name="colorAuth">#252423</color>
+    <color name="colorAuthText">#4c4c4c</color>
+    <color name="colorAuthSigninBtn">#4c4c4c</color>
+    <color name="colorAuthSigninBtnGreen">#7bcb57</color>
 </resources>

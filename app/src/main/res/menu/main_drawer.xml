@@ -5,16 +5,16 @@
 
     <item
         android:id="@+id/itemSignIn"
-        android:title="@string/sign_in" />
+        android:title="@string/sideBar_sign_in" />
 
     <item
         android:id="@+id/itemSignOut"
-        android:title="@string/sign_out" />
+        android:title="@string/sideBar_sign_out" />
 
     <group>
         <item
             android:id="@+id/itemExit"
-            android:title="@string/exit" />
+            android:title="@string/sideBar_exit" />
     </group>
 
 </menu>

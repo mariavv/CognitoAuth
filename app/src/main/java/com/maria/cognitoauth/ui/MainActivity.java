@@ -49,9 +49,11 @@ public class MainActivity extends AppCompatActivity implements MainView, Navigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.itemSignIn) {
-
+            presenter.signInBtnPressed();
         } else if (id == R.id.itemSignOut) {
-
+            presenter.signOutBtnPressed();
+        } else if (id == R.id.itemExit) {
+            presenter.exitBtnPressed();
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -64,12 +66,22 @@ public class MainActivity extends AppCompatActivity implements MainView, Navigat
         helloView.setText(resGreeting);
     }
 
+    @Override
+    public void exit() {
+        finish();
+    }
+
+    @Override
+    public void startAuthActivity(final int reguestCode) {
+        startActivityForResult(AuthActivity.start(this), reguestCode);
+    }
+
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                R.string.sideBar_navigation_drawer_open, R.string.sideBar_navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);

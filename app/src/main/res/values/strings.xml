@@ -2,17 +2,25 @@
     <string name="app_name">CognitoAuth</string>
     <string name="hello_world">Hello World!</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="sign_in">SignIn</string>
-    <string name="sign_out">SignOut</string>
-    <string name="exit">Exit</string>
+    <string name="sideBar_navigation_drawer_open">Open navigation drawer</string>
+    <string name="sideBar_navigation_drawer_close">Close navigation drawer</string>
+    <string name="sideBar_sign_in">SignIn</string>
+    <string name="sideBar_sign_out">SignOut</string>
+    <string name="sideBar_exit">Exit</string>
 
-    <string name="login">login</string>
-    <string name="name">name</string>
-
-    <string-array name="side_bar_items">
+    <!--<string-array name="sideBar_items">
         <item>SignIn</item>
         <item>SignOut</item>
-    </string-array>
+    </string-array>-->
+
+    <string name="auth_activity_name">Авторизация</string>
+    <string name="auth_login">login</string>
+    <string name="auth_name">name</string>
+    <string name="auth_sova">sova</string>
+    <string name="auth_ed_login_hint">Phone number (login)</string>
+    <string name="auth_btn_text_not_fill">Not all fields filled</string>
+    <string name="auth_btn_reg">Registration</string>
+    <string name="auth_ed_pass_hint">Password</string>
+    <string name="auth_fill_screen">fill_screen</string>
+    <string name="auth_btn_text_signin">Sign in</string>
 </resources>
