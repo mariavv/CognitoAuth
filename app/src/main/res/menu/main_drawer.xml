@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/itemSignIn"
-        android:title="@string/sideBar_sign_in" />
-
-    <item
-        android:id="@+id/itemSignOut"
-        android:title="@string/sideBar_sign_out" />
-
     <group>
+        <item
+            android:id="@+id/itemSignIn"
+            android:title="@string/sideBar_sign_in" />
+
+        <item
+            android:id="@+id/itemSignOut"
+            android:title="@string/sideBar_sign_out" />
+
         <item
             android:id="@+id/itemExit"
             android:title="@string/sideBar_exit" />

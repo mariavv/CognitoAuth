@@ -6,8 +6,9 @@ import com.maria.cognitoauth.iview.MainView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
 public class MainPresenter implements AuthenticationProvider.Listener {
-    private static final int SIGN_IN = 1;
-    
+    private static final int SIGN_IN_REQUEST = 1;
+    private static final int PROFILE_REQUEST = 2;
+
     private MainView view;
 
     private AuthenticationProvider authProvider;
@@ -38,7 +39,7 @@ public class MainPresenter implements AuthenticationProvider.Listener {
     }
 
     public void signInBtnPressed() {
-        view.startAuthActivity(SIGN_IN);
+        view.startAuthActivity(SIGN_IN_REQUEST);
     }
 
     public void signOutBtnPressed() {
@@ -51,5 +52,9 @@ public class MainPresenter implements AuthenticationProvider.Listener {
 
     public void exitBtnPressed() {
         view.exit();
+    }
+
+    public void menuHeaderClick() {
+        view.startProfileActivity(PROFILE_REQUEST);
     }
 }

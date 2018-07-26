@@ -6,4 +6,6 @@ public interface MainView {
     void exit();
 
     void startAuthActivity(final int reguestCode);
+
+    void startProfileActivity(final int reguestCode);
 }
