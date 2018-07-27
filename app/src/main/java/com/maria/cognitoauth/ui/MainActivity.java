@@ -16,7 +16,7 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.present.MainPresenter;
 import com.maria.cognitoauth.iview.MainView;
 
-public class MainActivity extends AppCompatActivity implements MainView, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements MainView/*, NavigationView.OnNavigationItemSelectedListener*/ {
 
     private DrawerLayout drawer;
     private TextView helloView;
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Navigat
         return super.onCreateOptionsMenu(menu);
     }*/
 
-    @Override
+    /*@Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.itemSignIn) {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Navigat
         drawer.closeDrawer(GravityCompat.START);
 
         return false;
-    }
+    }*/
 
     @Override
     public void changeText(int resGreeting) {

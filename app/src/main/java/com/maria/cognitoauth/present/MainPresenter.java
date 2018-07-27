@@ -5,7 +5,7 @@ import android.content.Context;
 import com.maria.cognitoauth.iview.MainView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-public class MainPresenter implements AuthenticationProvider.Listener {
+public class MainPresenter implements AuthenticationProvider.SignOutListener {
     private static final int SIGN_IN_REQUEST = 1;
     private static final int PROFILE_REQUEST = 2;
 
@@ -15,7 +15,7 @@ public class MainPresenter implements AuthenticationProvider.Listener {
 
     public MainPresenter(MainView view) {
         this.view = view;
-        authProvider = new AuthenticationProvider(this, (Context) view);
+        authProvider = new AuthenticationProvider(this);
     }
 
     public void onCreate(int resGreeting) {
@@ -44,6 +44,16 @@ public class MainPresenter implements AuthenticationProvider.Listener {
 
     public void signOutBtnPressed() {
         signOut();
+    }
+
+    @Override
+    public void onFailure(Exception exception) {
+
+    }
+
+    @Override
+    public void signOutSuccessful() {
+
     }
 
     private void signOut() {

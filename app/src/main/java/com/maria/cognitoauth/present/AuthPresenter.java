@@ -7,7 +7,7 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-public class AuthPresenter implements AuthenticationProvider.Listener {
+public class AuthPresenter implements AuthenticationProvider.SignInListener {
     private static final int PASS_MIN_LENGTH = 6;
 
     private AuthView view;
@@ -46,6 +46,23 @@ public class AuthPresenter implements AuthenticationProvider.Listener {
     public void loginBtnPressed(final String login, String pass) {
         signOut();
         login(login, pass);
+    }
+
+    @Override
+    public void signInSuccessful() {
+
+    }
+
+    @Override
+    public void onRegSuccess() {
+        if (authProvider.userExists()) {
+
+        }
+    }
+
+    @Override
+    public void onFailure(Exception exception) {
+
     }
 
     private void login(final String login, String pass) {

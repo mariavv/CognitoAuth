@@ -61,8 +61,7 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // как называется эта кнопка?
-        if (item.getItemId() == 16908332) {
+        if (item.getItemId() == android.R.id.home) {
             presenter.backBtnPressed();
         }
         return super.onOptionsItemSelected(item);

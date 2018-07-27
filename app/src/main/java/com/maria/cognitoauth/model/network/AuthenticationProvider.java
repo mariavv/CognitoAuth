@@ -3,7 +3,11 @@ package com.maria.cognitoauth.model.network;
 import android.content.Context;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
 
 public class AuthenticationProvider {
@@ -12,23 +16,68 @@ public class AuthenticationProvider {
     private static final String CLIENT_SECRET = "11vuj0q1iuir9rq7pej9l7i9tdim61lnjrbtjguvg1a9ub1hs9ck";
     private static final String REGION = "us-east-2";
 
-    private Listener listener;
+    private static final String ATTR_EMAIL = "email";
+    private static final String ATTR_USERNAME = "preferred_username";
+    private static final String ATTR_PHONE = "phone";
 
     private CognitoUserPool userPool;
 
-    public interface Listener {
+    //private Listener listener;
+    private SignInListener signInListener;
+    private SignOutListener signOutListener;
+
+    /*public interface Listener {
+        void onRegSuccess();
+
+        void onRegFailure(Exception exception);
+    }*/
+
+    public interface Listener extends SignInListener, SignOutListener {
+    }
+
+    public interface AuthErrorListener {
+        void onFailure(Exception exception);
+    }
+
+    public interface SignInListener extends AuthErrorListener {
+        void signInSuccessful();
+
+        void onRegSuccess();
+    }
+
+    public interface SignOutListener  extends AuthErrorListener{
+        void signOutSuccessful();
     }
 
     public AuthenticationProvider(Listener listener, Context context) {
-        this.listener = listener;
+        this.signInListener = listener;
+        this.signOutListener = listener;
+        //this.listener = listener;
 
         createCognitoUserPool(context);
     }
 
+
+    public AuthenticationProvider(SignInListener signInListener, Context context) {
+        this.signInListener = signInListener;
+
+        createCognitoUserPool(context);
+    }
+
+    public AuthenticationProvider(SignOutListener signOutListener) {
+        this.signOutListener = signOutListener;
+    }
+
     public void signOut() {
+        userPool.getCurrentUser().signOut();
     }
 
     public void register(String login, String pass) {
+        CognitoUserAttributes userAttributes = new CognitoUserAttributes();
+        userAttributes.addAttribute(ATTR_EMAIL, "login@mail.ru");
+        userAttributes.addAttribute(ATTR_USERNAME, "89001112222");
+        
+        userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }
 
     public void signIn(String login, String pass) {
@@ -41,4 +90,17 @@ public class AuthenticationProvider {
     private void createCognitoUserPool(Context context) {
         userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, Regions.fromName(REGION));
     }
+
+    private SignUpHandler signUpHandler = new SignUpHandler() {
+        @Override
+        public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
+                              CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+            signInListener.onRegSuccess();
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            signInListener.onFailure(exception);
+        }
+    };
 }
