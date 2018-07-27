@@ -1,5 +1,5 @@
 package com.maria.cognitoauth.iview;
 
-public interface RegisterView {
-    void setUpSignupBtn(int auth_btn_text_signin, int colorAuthSigninBtnGreen, boolean b);
+public interface RegisterView extends IView {
+    void setUpSignBtn(int btn_text, int colorBtn, boolean enable);
 }

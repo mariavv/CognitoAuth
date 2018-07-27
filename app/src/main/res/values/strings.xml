@@ -29,4 +29,8 @@
     <string name="reg_ed_name_hint">Name</string>
 
     <string name="reg_btn_text_signin">Sign up</string>
+    <string name="regSuccess">Register Successful</string>
+    <string name="not_confirmed">Error! This user must be confirmed!</string>
+    <string name="auth_ed_confirmPass_hint">Confirm password</string>
+    <string name="pass_not_equals">Password not equals!</string>
 </resources>

@@ -19,12 +19,16 @@ import android.widget.ImageView;
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
 import com.maria.cognitoauth.present.AuthPresenter;
+import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
 
 import ru.tinkoff.decoro.MaskImpl;
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser;
 import ru.tinkoff.decoro.slots.Slot;
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
+
+import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.getTextLength;
+import static com.maria.cognitoauth.ui.Tools.AuthAndRegTools.edGetText;
 
 public class AuthActivity extends AppCompatActivity implements AuthView {
     private static final String RES_IDENTIFIER_NAME_STATUS_BAR_HEIGHT = "status_bar_height";
@@ -75,14 +79,34 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
     @Override
     public void close(int result) {
         setResult(result, new Intent());
-        finish();
+        AuthAndRegTools.finishActivity(this);
     }
 
     @Override
-    public void setUpSigninBtn(int resText, int resColor, boolean enabled) {
+    public void close() {
+        //do nothing
+    }
+
+    @Override
+    public void say(int messageRes) {
+        AuthAndRegTools.say(this, messageRes);
+    }
+
+    @Override
+    public void say(String message) {
+        AuthAndRegTools.say(this, message);
+    }
+
+    @Override
+    public void setUpSignBtn(int resText, int resColor, boolean enabled) {
         signinBtn.setText(resText);
         signinBtn.setBackgroundColor(this.getResources().getColor(resColor));
         signinBtn.setEnabled(enabled);
+    }
+
+    @Override
+    public void startRegisterActivity(int reguestCode, String login, String pass) {
+        startActivityForResult(RegisterActivity.start(this, login, pass), reguestCode);
     }
 
     private void configViews() {
@@ -163,11 +187,7 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
         formatWatcher.installOn(loginEd);
     }
 
-    private String edGetText(EditText ed) {
-        return ed.getText().toString();
-    }
-
     private int edGetTextLength(EditText ed) {
-        return ed.getText().length();
+        return getTextLength(ed.getText().toString());
     }
 }

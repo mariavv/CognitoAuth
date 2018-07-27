@@ -1,14 +1,16 @@
 package com.maria.cognitoauth.present;
 
+
 import android.content.Context;
 
 import com.maria.cognitoauth.iview.MainView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-public class MainPresenter implements AuthenticationProvider.SignOutListener {
+import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.REGISTER_REQUEST;
+
+public class MainPresenter implements AuthenticationProvider.SignOutListener, AuthenticationProvider.UserListener {
     private static final int SIGN_IN_REQUEST = 1;
     private static final int PROFILE_REQUEST = 2;
-    private static final int REGISTER_REQUEST = 3;
 
     private MainView view;
 
@@ -16,7 +18,7 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
 
     public MainPresenter(MainView view) {
         this.view = view;
-        authProvider = new AuthenticationProvider(this);
+        authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
     public void onCreate(int resGreeting) {
@@ -32,8 +34,8 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
     }
 
     private void sayHi(int resGreeting) {
-        if (/*authProvider.userExists()*/false) {
-            //view.changeText((new AuthManager(this)).getEmail());
+        if (authProvider.userSingedIn()) {
+            authProvider.getName();
         } else {
             view.changeText(resGreeting);
         }
@@ -57,12 +59,13 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
 
     }
 
-    private void signOut() {
-        authProvider.signOut();
+    @Override
+    public void getName(String name) {
+        view.changeText(name);
     }
 
     public void exitBtnPressed() {
-        view.exit();
+        view.close();
     }
 
     public void menuHeaderClick() {
@@ -71,5 +74,9 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
 
     public void RegisterBtnPressed() {
         view.startRegisterActivity(REGISTER_REQUEST);
+    }
+
+    private void signOut() {
+        authProvider.signOut();
     }
 }

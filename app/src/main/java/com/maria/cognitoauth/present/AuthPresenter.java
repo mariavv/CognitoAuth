@@ -7,8 +7,9 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-import static com.maria.cognitoauth.present.Tools.AuthTools.isParamCorrect;
-import static com.maria.cognitoauth.present.Tools.AuthTools.isPassCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.REGISTER_REQUEST;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.isParamCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.isPassCorrect;
 
 public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
@@ -32,17 +33,16 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     public void textChanged(int loginLength, final int passLength) {
         if (isAuthParamsCorrect(loginLength, passLength)) {
-            view.setUpSigninBtn(R.string.auth_btn_text_signin,
+            view.setUpSignBtn(R.string.auth_btn_text_signin,
                     R.color.colorAuthSigninBtnGreen, true);
         } else {
-            view.setUpSigninBtn(R.string.auth_btn_text_not_fill,
+            view.setUpSignBtn(R.string.auth_btn_text_not_fill,
                     R.color.colorAuthSigninBtn, false);
         }
     }
 
     public void regBtnPressed(final String login, final String pass) {
-        signOut();
-        authProvider.register(login, pass);
+        view.startRegisterActivity(REGISTER_REQUEST, login, pass);
     }
 
     public void loginBtnPressed(final String login, String pass) {

@@ -15,8 +15,9 @@ import android.widget.TextView;
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.present.MainPresenter;
 import com.maria.cognitoauth.iview.MainView;
+import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
 
-public class MainActivity extends AppCompatActivity implements MainView/*, NavigationView.OnNavigationItemSelectedListener*/ {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     private static final int SIDE_BAR_HEADER_VIEW_INDEX = 0;
 
@@ -57,41 +58,24 @@ public class MainActivity extends AppCompatActivity implements MainView/*, Navig
         }
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem item = menu.findItem(R.id.app_bar_switch);
-        MenuItemCompat.setActionView(item, R.layout.switch_item);
-        RelativeLayout notifCount = (RelativeLayout) MenuItemCompat.getActionView(item);
-
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
-    /*@Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.itemSignIn) {
-            presenter.signInBtnPressed();
-        } else if (id == R.id.itemSignOut) {
-            presenter.signOutBtnPressed();
-        } else if (id == R.id.itemExit) {
-            presenter.exitBtnPressed();
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
-
-        return false;
-    }*/
-
     @Override
     public void changeText(int resGreeting) {
         helloView.setText(resGreeting);
     }
 
     @Override
-    public void exit() {
-        finish();
+    public void close() {
+        AuthAndRegTools.finishActivity(this);
+    }
+
+    @Override
+    public void say(int messageRes) {
+        AuthAndRegTools.say(this, messageRes);
+    }
+
+    @Override
+    public void say(String message) {
+        AuthAndRegTools.say(this, message);
     }
 
     @Override
@@ -107,6 +91,11 @@ public class MainActivity extends AppCompatActivity implements MainView/*, Navig
     @Override
     public void startRegisterActivity(int reguestCode) {
         startActivityForResult(RegisterActivity.start(this), reguestCode);
+    }
+
+    @Override
+    public void changeText(String name) {
+        helloView.setText(name);
     }
 
     private void initViews() {

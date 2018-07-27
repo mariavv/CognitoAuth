@@ -6,9 +6,14 @@ import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
+import com.maria.cognitoauth.R;
+
+import java.util.HashMap;
 
 public class AuthenticationProvider {
     private static final String USER_POOL_ID = "us-east-2_sI1ivFCf3";
@@ -18,22 +23,15 @@ public class AuthenticationProvider {
 
     private static final String ATTR_EMAIL = "email";
     private static final String ATTR_USERNAME = "preferred_username";
-    private static final String ATTR_PHONE = "phone";
 
     private CognitoUserPool userPool;
 
-    //private Listener listener;
     private SignUpListener signUpListener;
     private SignInListener signInListener;
     private SignOutListener signOutListener;
+    private UserListener userListener;
 
-    /*public interface Listener {
-        void onRegSuccess();
-
-        void onRegFailure(Exception exception);
-    }*/
-
-    public interface Listener extends SignUpListener, SignInListener, SignOutListener {
+    public interface Listener extends SignUpListener, SignInListener, SignOutListener, UserListener {
     }
 
     public interface AuthErrorListener {
@@ -42,6 +40,8 @@ public class AuthenticationProvider {
 
     public interface SignUpListener extends AuthErrorListener {
         void onRegSuccess();
+
+        void onFailure(int resError);
     }
 
     public interface SignInListener extends AuthErrorListener {
@@ -52,11 +52,15 @@ public class AuthenticationProvider {
         void signOutSuccessful();
     }
 
+    public interface UserListener extends AuthErrorListener {
+        void getName(String name);
+    }
+
     public AuthenticationProvider(Listener listener, Context context) {
         this.signUpListener = listener;
         this.signInListener = listener;
         this.signOutListener = listener;
-        //this.listener = listener;
+        this.userListener = listener;
 
         createCognitoUserPool(context);
     }
@@ -73,18 +77,21 @@ public class AuthenticationProvider {
         createCognitoUserPool(context);
     }
 
-    public AuthenticationProvider(SignOutListener signOutListener) {
+    public AuthenticationProvider(SignOutListener signOutListener, Context context) {
         this.signOutListener = signOutListener;
+
+        createCognitoUserPool(context);
     }
 
     public void signOut() {
         userPool.getCurrentUser().signOut();
+        //IdentityManager.getDefaultIdentityManager().signOut();
     }
 
-    public void register(String login, String pass) {
+    public void register(String name, String login, String email, String pass) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
-        userAttributes.addAttribute(ATTR_EMAIL, "login@mail.ru");
-        userAttributes.addAttribute(ATTR_USERNAME, "89001112222");
+        userAttributes.addAttribute(ATTR_EMAIL, email);
+        userAttributes.addAttribute(ATTR_USERNAME, name);
 
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }
@@ -92,8 +99,13 @@ public class AuthenticationProvider {
     public void signIn(String login, String pass) {
     }
 
-    public boolean userExists() {
-        return IdentityManager.getDefaultIdentityManager().isUserSignedIn();
+    public boolean userSingedIn() {
+        return false;
+        //return IdentityManager.getDefaultIdentityManager().isUserSignedIn();
+    }
+
+    public void getName() {
+        userPool.getCurrentUser().getDetailsInBackground(getDetailsHandler);
     }
 
     private void createCognitoUserPool(Context context) {
@@ -104,12 +116,29 @@ public class AuthenticationProvider {
         @Override
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-            signUpListener.onRegSuccess();
+            if (!signUpConfirmationState) {
+                signUpListener.onRegSuccess();
+            } else {
+                signUpListener.onFailure(R.string.not_confirmed);
+            }
         }
 
         @Override
         public void onFailure(Exception exception) {
-            signInListener.onFailure(exception);
+            signUpListener.onFailure(exception);
+        }
+    };
+
+    private GetDetailsHandler getDetailsHandler = new GetDetailsHandler() {
+        @Override
+        public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+            HashMap map = (HashMap) cognitoUserDetails.getAttributes().getAttributes();
+            userListener.getName((String) map.get(ATTR_USERNAME));
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            userListener.onFailure(exception);
         }
     };
 }

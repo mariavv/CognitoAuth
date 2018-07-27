@@ -21,6 +21,7 @@
     <dimen name="auth_reg_h">24dp</dimen>
     <dimen name="auth_login_margin_top">25dp</dimen>
     <dimen name="auth_scrollBar_size">4dp</dimen>
+    <dimen name="auth_scroll_top">200dp</dimen>
 
     <dimen name="reg_margin_top">30dp</dimen>
 </resources>
