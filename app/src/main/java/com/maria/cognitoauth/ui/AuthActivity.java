@@ -27,9 +27,9 @@ import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
 public class AuthActivity extends AppCompatActivity implements AuthView {
-    private static final String STATUS_BAR_HEIGHT = "status_bar_height";
-    private static final String DIMEN = "dimen";
-    private static final String ANDROID = "android";
+    private static final String RES_IDENTIFIER_NAME_STATUS_BAR_HEIGHT = "status_bar_height";
+    private static final String DEF_TYPE_DIMEN = "dimen";
+    private static final String DEF_PACKAGE_ANDROID = "android";
 
     private static final String PHONE_MASK = "+7 (___) ___ ____";
 
@@ -37,7 +37,6 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
 
     private EditText loginEd;
     private EditText passEd;
-    private Button regBtn;
     private Button signinBtn;
 
     public static Intent start(Context context) {
@@ -84,35 +83,20 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
         signinBtn.setText(resText);
         signinBtn.setBackgroundColor(this.getResources().getColor(resColor));
         signinBtn.setEnabled(enabled);
-        regBtn.setEnabled(enabled);
     }
 
     private void configViews() {
         loginEd = findViewById(R.id.loginEd);
         passEd = findViewById(R.id.passEd);
-        regBtn = findViewById(R.id.regBtn);
         signinBtn = findViewById(R.id.loginBtn);
 
-        addPhoneEdMask();
+        //TODO
+        //addPhoneEdMask();
 
-        passEd.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        addTextChagedListener(loginEd);
+        addTextChagedListener(passEd);
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                presenter.textChanged(edGetTextLength(passEd));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        regBtn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.regBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.regBtnPressed(edGetText(loginEd), edGetText(passEd));
@@ -123,6 +107,25 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
             @Override
             public void onClick(View v) {
                 presenter.loginBtnPressed(edGetText(loginEd), edGetText(passEd));
+            }
+        });
+    }
+
+    private void addTextChagedListener(EditText ed) {
+        ed.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                presenter.textChanged(edGetTextLength(loginEd), edGetTextLength(passEd));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
@@ -143,7 +146,7 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
 
         // Высота строки состояния
         int stateBarHeight = 0;
-        int resourceId = getResources().getIdentifier(STATUS_BAR_HEIGHT, DIMEN, ANDROID);
+        int resourceId = getResources().getIdentifier(RES_IDENTIFIER_NAME_STATUS_BAR_HEIGHT, DEF_TYPE_DIMEN, DEF_PACKAGE_ANDROID);
         if (resourceId > 0) {
             stateBarHeight = getResources().getDimensionPixelSize(resourceId);
         }

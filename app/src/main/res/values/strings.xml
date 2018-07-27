@@ -2,6 +2,7 @@
     <string name="app_name">CognitoAuth</string>
     <string name="hello_world">Hello World!</string>
 
+
     <string name="sideBar_navigation_drawer_open">Open navigation drawer</string>
     <string name="sideBar_navigation_drawer_close">Close navigation drawer</string>
     <string name="sideBar_sign_in">SignIn</string>
@@ -13,7 +14,7 @@
         <item>SignOut</item>
     </string-array>-->
 
-    <string name="auth_activity_name">Авторизация</string>
+    <string name="auth_activity_name">Authorizatoin</string>
     <string name="auth_login">login</string>
     <string name="auth_name">name</string>
     <string name="auth_sova">sova</string>
@@ -23,4 +24,9 @@
     <string name="auth_ed_pass_hint">Password</string>
     <string name="auth_fill_screen">fill_screen</string>
     <string name="auth_btn_text_signin">Sign in</string>
+    <string name="sideBar_sign_up">SignUp</string>
+    <string name="reg_ed_email_hint">Email</string>
+    <string name="reg_ed_name_hint">Name</string>
+
+    <string name="reg_btn_text_signin">Sign up</string>
 </resources>

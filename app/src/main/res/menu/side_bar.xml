@@ -9,6 +9,10 @@
             android:title="@string/sideBar_sign_in" />
 
         <item
+            android:id="@+id/itemRegister"
+            android:title="@string/sideBar_sign_up" />
+
+        <item
             android:id="@+id/itemSignOut"
             android:title="@string/sideBar_sign_out" />
 

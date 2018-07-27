@@ -103,7 +103,7 @@
                     android:layout_marginStart="@dimen/auth_margin"
                     android:layout_marginTop="@dimen/auth_margin_top"
                     android:background="@android:color/white"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:text="@string/auth_btn_reg"
                     android:textColor="@color/colorAuthText"
                     android:textSize="@dimen/auth_regText_size" />

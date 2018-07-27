@@ -7,8 +7,10 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
+import static com.maria.cognitoauth.present.Tools.AuthTools.isParamCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthTools.isPassCorrect;
+
 public class AuthPresenter implements AuthenticationProvider.SignInListener {
-    private static final int PASS_MIN_LENGTH = 6;
 
     private AuthView view;
 
@@ -28,8 +30,8 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
         view.close(Activity.RESULT_CANCELED);
     }
 
-    public void textChanged(final int passLength) {
-        if (isAuthParamsCorrect(passLength)) {
+    public void textChanged(int loginLength, final int passLength) {
+        if (isAuthParamsCorrect(loginLength, passLength)) {
             view.setUpSigninBtn(R.string.auth_btn_text_signin,
                     R.color.colorAuthSigninBtnGreen, true);
         } else {
@@ -54,13 +56,6 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
     }
 
     @Override
-    public void onRegSuccess() {
-        if (authProvider.userExists()) {
-
-        }
-    }
-
-    @Override
     public void onFailure(Exception exception) {
 
     }
@@ -73,7 +68,7 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
         authProvider.signOut();
     }
 
-    private boolean isAuthParamsCorrect(final int passLen) {
-        return passLen >= PASS_MIN_LENGTH;
+    private boolean isAuthParamsCorrect(int loginLen, int passLen) {
+        return isParamCorrect(loginLen) && isPassCorrect(passLen);
     }
 }

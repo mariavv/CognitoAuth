@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/reg_margin_top">
+
+        <EditText
+            android:id="@+id/loginEd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_margin"
+            android:layout_marginRight="@dimen/auth_margin"
+            android:fontFamily="sans-serif"
+            android:hint="@string/auth_ed_login_hint"
+            android:inputType="phone"
+            android:labelFor="@id/loginEd"
+            android:lineSpacingExtra="@dimen/auth_text_size"
+            android:textColor="@color/colorAuthText"
+            android:textSize="@dimen/auth_text_size"
+            android:textStyle="normal"
+            tools:layout_marginTop="@dimen/reg_margin_top" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/reg_margin_top">
+
+        <EditText
+            android:id="@+id/nameEd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_margin"
+            android:layout_marginRight="@dimen/auth_margin"
+            android:fontFamily="sans-serif"
+            android:hint="@string/reg_ed_name_hint"
+            android:inputType="textPersonName"
+            android:labelFor="@id/nameEd"
+            android:lineSpacingExtra="@dimen/auth_text_size"
+            android:textColor="@color/colorAuthText"
+            android:textSize="@dimen/auth_text_size"
+            android:textStyle="normal"
+            tools:layout_marginTop="@dimen/reg_margin_top" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/reg_margin_top">
+
+        <EditText
+            android:id="@+id/emailEd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_margin"
+            android:layout_marginRight="@dimen/auth_margin"
+            android:fontFamily="sans-serif"
+            android:hint="@string/reg_ed_email_hint"
+            android:inputType="textEmailAddress"
+            android:labelFor="@id/emailEd"
+            android:lineSpacingExtra="@dimen/auth_text_size"
+            android:textColor="@color/colorAuthText"
+            android:textSize="@dimen/auth_text_size"
+            android:textStyle="normal"
+            tools:layout_marginTop="@dimen/reg_margin_top" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/reg_margin_top">
+
+        <EditText
+            android:id="@+id/passEd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_margin"
+            android:layout_marginRight="@dimen/auth_margin"
+            android:fontFamily="sans-serif"
+            android:hint="@string/auth_ed_pass_hint"
+            android:inputType="textPassword"
+            android:labelFor="@id/passEd"
+            android:lineSpacingExtra="@dimen/auth_text_size"
+            android:textColor="@color/colorAuthText"
+            android:textSize="@dimen/auth_text_size"
+            android:textStyle="normal" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/reg_margin_top">
+
+        <EditText
+            android:id="@+id/confirmPassEd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_margin"
+            android:layout_marginRight="@dimen/auth_margin"
+            android:fontFamily="sans-serif"
+            android:hint="@string/auth_ed_pass_hint"
+            android:inputType="textPassword"
+            android:labelFor="@id/confirmPassEd"
+            android:lineSpacingExtra="@dimen/auth_text_size"
+            android:textColor="@color/colorAuthText"
+            android:textSize="@dimen/auth_text_size"
+            android:textStyle="normal" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="@dimen/auth_btnLogin_w"
+        android:layout_height="@dimen/auth_btnLogin_h"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/auth_margin_end_bottom"
+        android:layout_marginLeft="@dimen/auth_margin"
+        android:layout_marginRight="@dimen/auth_margin"
+        android:layout_marginTop="@dimen/auth_login_margin_top"
+        android:background="@color/colorAuthSigninBtn"
+        android:enabled="false"
+        android:text="@string/auth_btn_text_not_fill"
+        android:textColor="@android:color/white"
+        tools:layout_marginBottom="@dimen/auth_margin_end_bottom" />
+
+</LinearLayout>

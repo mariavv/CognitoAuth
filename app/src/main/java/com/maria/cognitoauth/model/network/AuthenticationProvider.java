@@ -23,6 +23,7 @@ public class AuthenticationProvider {
     private CognitoUserPool userPool;
 
     //private Listener listener;
+    private SignUpListener signUpListener;
     private SignInListener signInListener;
     private SignOutListener signOutListener;
 
@@ -32,24 +33,27 @@ public class AuthenticationProvider {
         void onRegFailure(Exception exception);
     }*/
 
-    public interface Listener extends SignInListener, SignOutListener {
+    public interface Listener extends SignUpListener, SignInListener, SignOutListener {
     }
 
     public interface AuthErrorListener {
         void onFailure(Exception exception);
     }
 
-    public interface SignInListener extends AuthErrorListener {
-        void signInSuccessful();
-
+    public interface SignUpListener extends AuthErrorListener {
         void onRegSuccess();
     }
 
-    public interface SignOutListener  extends AuthErrorListener{
+    public interface SignInListener extends AuthErrorListener {
+        void signInSuccessful();
+    }
+
+    public interface SignOutListener extends AuthErrorListener {
         void signOutSuccessful();
     }
 
     public AuthenticationProvider(Listener listener, Context context) {
+        this.signUpListener = listener;
         this.signInListener = listener;
         this.signOutListener = listener;
         //this.listener = listener;
@@ -57,6 +61,11 @@ public class AuthenticationProvider {
         createCognitoUserPool(context);
     }
 
+    public AuthenticationProvider(SignUpListener signUpListener, Context context) {
+        this.signUpListener = signUpListener;
+
+        createCognitoUserPool(context);
+    }
 
     public AuthenticationProvider(SignInListener signInListener, Context context) {
         this.signInListener = signInListener;
@@ -76,7 +85,7 @@ public class AuthenticationProvider {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute(ATTR_EMAIL, "login@mail.ru");
         userAttributes.addAttribute(ATTR_USERNAME, "89001112222");
-        
+
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }
 
@@ -95,7 +104,7 @@ public class AuthenticationProvider {
         @Override
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-            signInListener.onRegSuccess();
+            signUpListener.onRegSuccess();
         }
 
         @Override

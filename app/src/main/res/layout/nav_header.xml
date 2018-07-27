@@ -20,10 +20,10 @@
         android:id="@+id/ivPhoto"
         android:layout_width="@dimen/profile_photo_hw"
         android:layout_height="@dimen/profile_photo_hw"
-        android:layout_marginTop="@dimen/photo_layout_marginTop"
+        android:layout_marginTop="@dimen/sideBar_photo_layout_marginTop"
         app:riv_corner_radius="@dimen/riv_corner_radius"
         app:riv_border_width="@dimen/riv_border_width"
-        app:riv_border_color="@color/colorRivBorder"
+        app:riv_border_color="@color/colorMainSideRivBorder"
         app:riv_mutate_background="true"
         app:riv_tile_mode="repeat"
         android:src="@drawable/default_user_photo" />

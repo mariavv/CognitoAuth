@@ -18,6 +18,8 @@ import com.maria.cognitoauth.iview.MainView;
 
 public class MainActivity extends AppCompatActivity implements MainView/*, NavigationView.OnNavigationItemSelectedListener*/ {
 
+    private static final int SIDE_BAR_HEADER_VIEW_INDEX = 0;
+
     private DrawerLayout drawer;
     private TextView helloView;
 
@@ -102,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements MainView/*, Navig
         startActivityForResult(ProfileActivity.start(this), reguestCode);
     }
 
+    @Override
+    public void startRegisterActivity(int reguestCode) {
+        startActivityForResult(RegisterActivity.start(this), reguestCode);
+    }
+
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,20 +117,19 @@ public class MainActivity extends AppCompatActivity implements MainView/*, Navig
                 R.string.sideBar_navigation_drawer_open, R.string.sideBar_navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                // set item as selected to persist highlight
-                menuItem.setChecked(true);
-                // close drawer when item is tapped
                 drawer.closeDrawers();
 
-                // Add code here to update the UI based on the item selected
-                // For example, swap UI fragments here
                 int id = menuItem.getItemId();
-                if (id == R.id.itemSignIn) {
-                    presenter.signInBtnPressed();
+                if (id == R.id.itemRegister) {
+                    presenter.RegisterBtnPressed();
+                } else if (id == R.id.itemSignIn) {
+                        presenter.signInBtnPressed();
                 } else if (id == R.id.itemSignOut) {
                     presenter.signOutBtnPressed();
                 } else if (id == R.id.itemExit) {
@@ -132,8 +138,9 @@ public class MainActivity extends AppCompatActivity implements MainView/*, Navig
                 return true;
             }
         });
+
         navigationView
-                .getHeaderView(0)
+                .getHeaderView(SIDE_BAR_HEADER_VIEW_INDEX)
                 .findViewById(R.id.menuHeaderLayout)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override

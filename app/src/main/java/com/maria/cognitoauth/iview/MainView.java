@@ -8,4 +8,6 @@ public interface MainView {
     void startAuthActivity(final int reguestCode);
 
     void startProfileActivity(final int reguestCode);
+
+    void startRegisterActivity(final int reguestCode);
 }

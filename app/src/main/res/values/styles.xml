@@ -20,4 +20,9 @@
         <item name="windowActionBar">@color/colorAuth</item>
     </style>
 
+    <style name="RegisterTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorRegisterPrimary</item>
+        <item name="colorPrimaryDark">@color/colorRegisterPrimaryDark</item>
+    </style>
+
 </resources>

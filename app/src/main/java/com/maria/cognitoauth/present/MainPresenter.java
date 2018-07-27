@@ -8,6 +8,7 @@ import com.maria.cognitoauth.model.network.AuthenticationProvider;
 public class MainPresenter implements AuthenticationProvider.SignOutListener {
     private static final int SIGN_IN_REQUEST = 1;
     private static final int PROFILE_REQUEST = 2;
+    private static final int REGISTER_REQUEST = 3;
 
     private MainView view;
 
@@ -66,5 +67,9 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
 
     public void menuHeaderClick() {
         view.startProfileActivity(PROFILE_REQUEST);
+    }
+
+    public void RegisterBtnPressed() {
+        view.startRegisterActivity(REGISTER_REQUEST);
     }
 }
