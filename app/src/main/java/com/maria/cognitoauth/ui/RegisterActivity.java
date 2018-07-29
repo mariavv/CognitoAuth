@@ -6,18 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.RegisterView;
+import com.maria.cognitoauth.model.DataParams;
+import com.maria.cognitoauth.model.DataSaver;
+import com.maria.cognitoauth.model.network.AuthenticationProvider;
 import com.maria.cognitoauth.present.RegisterPresenter;
 import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
 
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.getTextLength;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.getTextLength;
 import static com.maria.cognitoauth.ui.Tools.AuthAndRegTools.edGetText;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView {
@@ -71,6 +72,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
+    public void close(String userId) {
+        presenter.onClose(userId, this);
+        finishActivity();
+    }
+
+    @Override
     public void say(int messageRes) {
         AuthAndRegTools.say(this, messageRes);
     }
@@ -82,6 +89,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @Override
     public void close() {
+        finishActivity();
+    }
+
+    private void finishActivity() {
         AuthAndRegTools.say(this, "reg done");
         AuthAndRegTools.finishActivity(this);
     }
@@ -98,8 +109,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         passEd.setText(getIntent().getStringExtra(ARG_PASS));
 
         //todo
-        nameEd.setText("qwer");
-        loginEd.setText("89001001000");
+        nameEd.setText("qwertyu");
+        loginEd.setText("89001001001");
         emailEd.setText("qwer@gmail.ru");
         passEd.setText("Qwerty12");
         confirmPassEd.setText("Qwerty12");

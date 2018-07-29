@@ -1,6 +1,6 @@
 package com.maria.cognitoauth.present.Tools;
 
-public class AuthAndRegTools {
+public class AuthAndRegPresentTools {
     public static final int REGISTER_REQUEST = 3;
 
     private static final int MIN_LENGTH = 1;

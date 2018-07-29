@@ -27,7 +27,7 @@ import ru.tinkoff.decoro.slots.Slot;
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.getTextLength;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.getTextLength;
 import static com.maria.cognitoauth.ui.Tools.AuthAndRegTools.edGetText;
 
 public class AuthActivity extends AppCompatActivity implements AuthView {
@@ -102,6 +102,11 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
         signinBtn.setText(resText);
         signinBtn.setBackgroundColor(this.getResources().getColor(resColor));
         signinBtn.setEnabled(enabled);
+    }
+
+    @Override
+    public void close(String userId) {
+
     }
 
     @Override

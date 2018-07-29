@@ -3,12 +3,15 @@ package com.maria.cognitoauth.present;
 
 import android.content.Context;
 
+import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.MainView;
+import com.maria.cognitoauth.model.DataParams;
+import com.maria.cognitoauth.model.DataSaver;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.REGISTER_REQUEST;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
 
-public class MainPresenter implements AuthenticationProvider.SignOutListener, AuthenticationProvider.UserListener {
+public class MainPresenter implements AuthenticationProvider.SignOutListener {
     private static final int SIGN_IN_REQUEST = 1;
     private static final int PROFILE_REQUEST = 2;
 
@@ -21,24 +24,16 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener, Au
         authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
-    public void onCreate(int resGreeting) {
-        sayHi(resGreeting);
+    public void onCreate(Context context) {
+        sayHi(context);
+    }
+
+    public void onResume(Context context) {
+        sayHi(context);
     }
 
     public void detachView() {
         view = null;
-    }
-
-    public void onResume(int resGreeting) {
-        sayHi(resGreeting);
-    }
-
-    private void sayHi(int resGreeting) {
-        if (authProvider.userSingedIn()) {
-            authProvider.getName();
-        } else {
-            view.changeText(resGreeting);
-        }
     }
 
     public void signInBtnPressed() {
@@ -51,7 +46,7 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener, Au
 
     @Override
     public void onFailure(Exception exception) {
-
+        view.say(exception.getMessage());
     }
 
     @Override
@@ -74,6 +69,19 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener, Au
 
     public void RegisterBtnPressed() {
         view.startRegisterActivity(REGISTER_REQUEST);
+    }
+
+    private void sayHi(Context context) {
+        String userId = DataSaver.getParam(DataParams.USER_ID, DataParams.DEF_VALUE, context);
+        if (userId != null) {
+            if (authProvider.isUserSigned()) {
+                authProvider.getName();
+            } else {
+                authProvider.signIn();
+            }
+        } else {
+            view.changeText(R.string.hello_world);
+        }
     }
 
     private void signOut() {

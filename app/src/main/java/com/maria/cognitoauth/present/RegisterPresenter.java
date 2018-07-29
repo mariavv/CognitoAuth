@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.RegisterView;
+import com.maria.cognitoauth.model.DataParams;
+import com.maria.cognitoauth.model.DataSaver;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.isParamCorrect;
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.isPassCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;
 
 public class RegisterPresenter implements AuthenticationProvider.SignUpListener {
     private RegisterView view;
@@ -30,6 +32,19 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         }
     }
 
+    public void regBtnPressed(final String name, final String login, final String email,
+                              final String pass, final String confirmPass) {
+        if (pass.equals(confirmPass)) {
+            authProvider.register(name, login, email, pass);
+        } else {
+            view.say(R.string.pass_not_equals);
+        }
+    }
+
+    public void onClose(String userId, Context context) {
+        DataSaver.saveParam(DataParams.USER_ID, userId, context);
+    }
+
     public void detachView() {
         view = null;
     }
@@ -40,8 +55,9 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
     }
 
     @Override
-    public void onRegSuccess() {
-        view.close();
+    public void onRegSuccess(String userId) {
+        authProvider.signIn();
+        view.close(userId);
     }
 
     @Override
@@ -53,14 +69,5 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
                                        final int passLen, final int confirmPassLen) {
         return isParamCorrect(nameLen) && isParamCorrect(loginLen) && isParamCorrect(emailLen)
                 && isPassCorrect(passLen) && isPassCorrect(confirmPassLen);
-    }
-
-    public void regBtnPressed(final String name, final String login, final String email,
-                              final String pass, final String confirmPass) {
-        if (pass.equals(confirmPass)) {
-            authProvider.register(name, login, email, pass);
-        } else {
-            view.say(R.string.pass_not_equals);
-        }
     }
 }

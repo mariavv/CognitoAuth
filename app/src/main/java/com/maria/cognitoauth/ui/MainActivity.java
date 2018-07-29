@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         initViews();
 
-        presenter.onCreate(R.string.hello_world);
+        presenter.onCreate(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.onResume(R.string.hello_world);
+        presenter.onResume(this);
     }
 
     @Override

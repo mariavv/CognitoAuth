@@ -7,9 +7,9 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.REGISTER_REQUEST;
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.isParamCorrect;
-import static com.maria.cognitoauth.present.Tools.AuthAndRegTools.isPassCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;
 
 public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
@@ -31,7 +31,7 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
         view.close(Activity.RESULT_CANCELED);
     }
 
-    public void textChanged(int loginLength, final int passLength) {
+    public void textChanged(final int loginLength, final int passLength) {
         if (isAuthParamsCorrect(loginLength, passLength)) {
             view.setUpSignBtn(R.string.auth_btn_text_signin,
                     R.color.colorAuthSigninBtnGreen, true);
@@ -45,7 +45,7 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
         view.startRegisterActivity(REGISTER_REQUEST, login, pass);
     }
 
-    public void loginBtnPressed(final String login, String pass) {
+    public void loginBtnPressed(final String login, final String pass) {
         signOut();
         login(login, pass);
     }
@@ -60,15 +60,15 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     }
 
-    private void login(final String login, String pass) {
-        authProvider.signIn(login, pass);
+    private void login(final String login, final String pass) {
+        authProvider.signIn();
     }
 
     private void signOut() {
         authProvider.signOut();
     }
 
-    private boolean isAuthParamsCorrect(int loginLen, int passLen) {
+    private boolean isAuthParamsCorrect(final int loginLen, final int passLen) {
         return isParamCorrect(loginLen) && isPassCorrect(passLen);
     }
 }

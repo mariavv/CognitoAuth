@@ -1,13 +1,19 @@
 package com.maria.cognitoauth.model.network;
 
 import android.content.Context;
-
-import com.amazonaws.mobile.auth.core.IdentityManager;
+;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
@@ -24,12 +30,14 @@ public class AuthenticationProvider {
     private static final String ATTR_EMAIL = "email";
     private static final String ATTR_USERNAME = "preferred_username";
 
-    private CognitoUserPool userPool;
-
     private SignUpListener signUpListener;
     private SignInListener signInListener;
     private SignOutListener signOutListener;
     private UserListener userListener;
+
+    private CognitoUserPool userPool;
+
+    private String password;
 
     public interface Listener extends SignUpListener, SignInListener, SignOutListener, UserListener {
     }
@@ -39,7 +47,7 @@ public class AuthenticationProvider {
     }
 
     public interface SignUpListener extends AuthErrorListener {
-        void onRegSuccess();
+        void onRegSuccess(String userId);
 
         void onFailure(int resError);
     }
@@ -48,7 +56,7 @@ public class AuthenticationProvider {
         void signInSuccessful();
     }
 
-    public interface SignOutListener extends AuthErrorListener {
+    public interface SignOutListener extends UserListener {
         void signOutSuccessful();
     }
 
@@ -62,25 +70,26 @@ public class AuthenticationProvider {
         this.signOutListener = listener;
         this.userListener = listener;
 
-        createCognitoUserPool(context);
+        initFields(context);
     }
 
     public AuthenticationProvider(SignUpListener signUpListener, Context context) {
         this.signUpListener = signUpListener;
 
-        createCognitoUserPool(context);
+        initFields(context);
     }
 
     public AuthenticationProvider(SignInListener signInListener, Context context) {
         this.signInListener = signInListener;
 
-        createCognitoUserPool(context);
+        initFields(context);
     }
 
     public AuthenticationProvider(SignOutListener signOutListener, Context context) {
         this.signOutListener = signOutListener;
+        this.userListener = signOutListener;
 
-        createCognitoUserPool(context);
+        initFields(context);
     }
 
     public void signOut() {
@@ -94,18 +103,26 @@ public class AuthenticationProvider {
         userAttributes.addAttribute(ATTR_USERNAME, name);
 
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
+
+        this.password = pass;
     }
 
-    public void signIn(String login, String pass) {
-    }
-
-    public boolean userSingedIn() {
-        return false;
-        //return IdentityManager.getDefaultIdentityManager().isUserSignedIn();
+    public void signIn() {
+        userPool.getCurrentUser().getSessionInBackground(handler);
     }
 
     public void getName() {
         userPool.getCurrentUser().getDetailsInBackground(getDetailsHandler);
+    }
+
+    public boolean isUserSigned() {
+        return userPool.getCurrentUser().getUserId() != null;
+    }
+
+    private void initFields(Context context) {
+        createCognitoUserPool(context);
+
+        password = null;
     }
 
     private void createCognitoUserPool(Context context) {
@@ -117,7 +134,7 @@ public class AuthenticationProvider {
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             if (!signUpConfirmationState) {
-                signUpListener.onRegSuccess();
+                signUpListener.onRegSuccess(user.getUserId());
             } else {
                 signUpListener.onFailure(R.string.not_confirmed);
             }
@@ -139,6 +156,57 @@ public class AuthenticationProvider {
         @Override
         public void onFailure(Exception exception) {
             userListener.onFailure(exception);
+        }
+    };
+
+    private AuthenticationHandler handler = new AuthenticationHandler() {
+        @Override
+        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+            // Authentication was successful, the "userSession" will have the current valid tokens
+            // Time to do awesome stuff
+        }
+
+        @Override
+        public void getAuthenticationDetails(final AuthenticationContinuation continuation, final String userID) {
+            // User authentication details, userId and password are required to continue.
+            // Use the "continuation" object to pass the user authentication details
+
+            // After the user authentication details are available, wrap them in an AuthenticationDetails class
+            // Along with userId and password, parameters for user pools for Lambda can be passed here
+            // The validation parameters "validationParameters" are passed in as a Map<String, String>
+            AuthenticationDetails authDetails = new AuthenticationDetails(userID, password, null);
+
+            // Now allow the authentication to continue
+            continuation.setAuthenticationDetails(authDetails);
+            continuation.continueTask();
+        }
+
+        @Override
+        public void getMFACode(final MultiFactorAuthenticationContinuation continuation) {
+            // Multi-factor authentication is required to authenticate
+            // A code was sent to the user, use the code to continue with the authentication
+
+
+            // Find where the code was sent to
+            String codeSentHere = continuation.getParameters().getAttributeName();
+
+            // When the verification code is available, continue to authenticate
+            continuation.setMfaCode(codeSentHere);
+            continuation.continueTask();
+        }
+
+        @Override
+        public void authenticationChallenge(final ChallengeContinuation continuation) {
+            // A custom challenge has to be solved to authenticate
+
+            // Set the challenge responses
+
+            // Call continueTask() method to respond to the challenge and continue with authentication.
+        }
+
+        @Override
+        public void onFailure(final Exception exception) {
+            // Authentication failed, probe exception for the cause
         }
     };
 }
