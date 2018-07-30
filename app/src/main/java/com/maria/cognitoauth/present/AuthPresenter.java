@@ -31,7 +31,7 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
         view.close(Activity.RESULT_CANCELED);
     }
 
-    public void textChanged(final int loginLength, final int passLength) {
+    public void textChanged(int loginLength, int passLength) {
         if (isAuthParamsCorrect(loginLength, passLength)) {
             view.setUpSignBtn(R.string.auth_btn_text_signin,
                     R.color.colorAuthSigninBtnGreen, true);
@@ -41,11 +41,11 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
         }
     }
 
-    public void regBtnPressed(final String login, final String pass) {
+    public void regBtnPressed(String login, String pass) {
         view.startRegisterActivity(REGISTER_REQUEST, login, pass);
     }
 
-    public void loginBtnPressed(final String login, final String pass) {
+    public void loginBtnPressed(String login, String pass) {
         signOut();
         login(login, pass);
     }
@@ -60,15 +60,15 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     }
 
-    private void login(final String login, final String pass) {
-        authProvider.signIn();
+    private void login(String login, String pass) {
+        authProvider.signIn(pass);
     }
 
     private void signOut() {
         authProvider.signOut();
     }
 
-    private boolean isAuthParamsCorrect(final int loginLen, final int passLen) {
+    private boolean isAuthParamsCorrect(int loginLen, int passLen) {
         return isParamCorrect(loginLen) && isPassCorrect(passLen);
     }
 }

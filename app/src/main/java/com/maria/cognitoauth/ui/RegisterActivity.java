@@ -2,8 +2,8 @@ package com.maria.cognitoauth.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,9 +12,6 @@ import android.widget.EditText;
 
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.RegisterView;
-import com.maria.cognitoauth.model.DataParams;
-import com.maria.cognitoauth.model.DataSaver;
-import com.maria.cognitoauth.model.network.AuthenticationProvider;
 import com.maria.cognitoauth.present.RegisterPresenter;
 import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
 
@@ -24,7 +21,7 @@ import static com.maria.cognitoauth.ui.Tools.AuthAndRegTools.edGetText;
 public class RegisterActivity extends AppCompatActivity implements RegisterView {
 
     public static final String ARG_LOGIN = "login";
-    public static final String ARG_PASS = "pass";
+    public static final String ARG_PASSWORD = "password";
 
     private final RegisterPresenter presenter = new RegisterPresenter(this);
 
@@ -44,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
         Bundle arguments = new Bundle();
         arguments.putString(ARG_LOGIN, login);
-        arguments.putString(ARG_PASS, pass);
+        arguments.putString(ARG_PASSWORD, pass);
         intent.putExtras(arguments);
 
         return intent;
@@ -73,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @Override
     public void close(String userId) {
-        presenter.onClose(userId, this);
+        presenter.onClose(userId, passEd.getText().toString(), this);
         finishActivity();
     }
 
@@ -93,7 +90,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     private void finishActivity() {
-        AuthAndRegTools.say(this, "reg done");
         AuthAndRegTools.finishActivity(this);
     }
 
@@ -106,12 +102,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         signupBtn = findViewById(R.id.registerBtn);
 
         loginEd.setText(getIntent().getStringExtra(ARG_LOGIN));
-        passEd.setText(getIntent().getStringExtra(ARG_PASS));
+        passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
 
         //todo
-        nameEd.setText("qwertyu");
-        loginEd.setText("89001001001");
-        emailEd.setText("qwer@gmail.ru");
+        nameEd.setText("qwerrr");
+        loginEd.setText("89001002001");
+        emailEd.setText("qwerrr@gmail.ru");
         passEd.setText("Qwerty12");
         confirmPassEd.setText("Qwerty12");
 

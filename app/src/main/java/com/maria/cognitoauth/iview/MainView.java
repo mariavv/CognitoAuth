@@ -10,4 +10,6 @@ public interface MainView extends IView {
     void startRegisterActivity(final int reguestCode);
 
     void changeText(String name);
+
+    void setUserAttributes(String name, String email);
 }

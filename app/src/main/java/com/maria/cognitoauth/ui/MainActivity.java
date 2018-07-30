@@ -1,20 +1,20 @@
 package com.maria.cognitoauth.ui;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.maria.cognitoauth.R;
-import com.maria.cognitoauth.present.MainPresenter;
 import com.maria.cognitoauth.iview.MainView;
+import com.maria.cognitoauth.present.MainPresenter;
 import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
 
 public class MainActivity extends AppCompatActivity implements MainView {
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.onResume(this);
+        //todo presenter.onResume(this);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void startAuthActivity(final int reguestCode) {
+    public void startAuthActivity(int reguestCode) {
         startActivityForResult(AuthActivity.start(this), reguestCode);
     }
 
@@ -96,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void changeText(String name) {
         helloView.setText(name);
+    }
+
+    @Override
+    public void setUserAttributes(String name, String email) {
+        //todo show and save
     }
 
     private void initViews() {

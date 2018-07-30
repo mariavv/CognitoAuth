@@ -24,4 +24,5 @@
     <dimen name="auth_scroll_top">200dp</dimen>
 
     <dimen name="reg_margin_top">30dp</dimen>
+    <dimen name="reg_margin_end_bottom">20dp</dimen>
 </resources>

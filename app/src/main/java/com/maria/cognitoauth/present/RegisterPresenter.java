@@ -21,8 +21,8 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
-    public void textChanged(final int nameLength, final int loginLength, final int emailLength,
-                            final int passLength, final int confirmPassLength) {
+    public void textChanged(int nameLength, int loginLength, int emailLength,
+                            int passLength, int confirmPassLength) {
         if (isRegParamsCorrect(nameLength, loginLength, emailLength, passLength, confirmPassLength)) {
             view.setUpSignBtn(R.string.reg_btn_text_signin,
                     R.color.colorAuthSigninBtnGreen, true);
@@ -32,8 +32,7 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         }
     }
 
-    public void regBtnPressed(final String name, final String login, final String email,
-                              final String pass, final String confirmPass) {
+    public void regBtnPressed(String name, String login, String email, String pass, String confirmPass) {
         if (pass.equals(confirmPass)) {
             authProvider.register(name, login, email, pass);
         } else {
@@ -41,8 +40,10 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         }
     }
 
-    public void onClose(String userId, Context context) {
+    public void onClose(String userId, String password, Context context) {
         DataSaver.saveParam(DataParams.USER_ID, userId, context);
+        DataSaver.saveParam(DataParams.PASSWORD, password, context);
+        view.say(R.string.regSuccess);
     }
 
     public void detachView() {
@@ -56,17 +57,25 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
 
     @Override
     public void onRegSuccess(String userId) {
-        authProvider.signIn();
+        //authProvider.signIn();
         view.close(userId);
     }
 
     @Override
-    public void onFailure(final int resError) {
+    public void onFailure(int resError) {
         view.say(resError);
     }
 
-    private boolean isRegParamsCorrect(final int nameLen, final int loginLen, final int emailLen,
-                                       final int passLen, final int confirmPassLen) {
+    public String getUserId() {
+        String userId = authProvider.getUserId();
+        if (userId != null) {
+            return userId;
+        } else {
+            return "";
+        }
+    }
+
+    private boolean isRegParamsCorrect(int nameLen, int loginLen, int emailLen, int passLen, int confirmPassLen) {
         return isParamCorrect(nameLen) && isParamCorrect(loginLen) && isParamCorrect(emailLen)
                 && isPassCorrect(passLen) && isPassCorrect(confirmPassLen);
     }

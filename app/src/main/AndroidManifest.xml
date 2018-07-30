@@ -23,16 +23,15 @@
         </activity>
 
         <activity
+            android:name=".ui.ProfileActivity" />
+
+        <activity
             android:name=".ui.AuthActivity"
             android:label="@string/auth_activity_name"
             android:theme="@style/AuthTheme" />
 
         <activity
-            android:name=".ui.ProfileActivity"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name=".ui.RegisterActivity"/>
+            android:name=".ui.RegisterActivity" />
     </application>
 
 </manifest>

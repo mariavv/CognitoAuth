@@ -11,7 +11,7 @@ import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
 
-public class MainPresenter implements AuthenticationProvider.SignOutListener {
+public class MainPresenter implements AuthenticationProvider.AuthListener {
     private static final int SIGN_IN_REQUEST = 1;
     private static final int PROFILE_REQUEST = 2;
 
@@ -25,11 +25,11 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
     }
 
     public void onCreate(Context context) {
-        sayHi(context);
+        checkAuth(context);
     }
 
     public void onResume(Context context) {
-        sayHi(context);
+        checkAuth(context);
     }
 
     public void detachView() {
@@ -50,12 +50,18 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
     }
 
     @Override
+    public void signInSuccessful() {
+        authProvider.getUserAttributes();
+    }
+
+    @Override
     public void signOutSuccessful() {
 
     }
 
     @Override
-    public void getName(String name) {
+    public void onGetUserAttributes(String name, String email) {
+        view.setUserAttributes(name, email);
         view.changeText(name);
     }
 
@@ -71,14 +77,17 @@ public class MainPresenter implements AuthenticationProvider.SignOutListener {
         view.startRegisterActivity(REGISTER_REQUEST);
     }
 
-    private void sayHi(Context context) {
+    private void checkAuth(Context context) {
         String userId = DataSaver.getParam(DataParams.USER_ID, DataParams.DEF_VALUE, context);
-        if (userId != null) {
-            if (authProvider.isUserSigned()) {
-                authProvider.getName();
-            } else {
-                authProvider.signIn();
-            }
+        String password = DataSaver.getParam(DataParams.PASSWORD, DataParams.DEF_VALUE, context);
+        //if (userId != null) {
+        //TODO
+        if (authProvider.isUserSigned()) {
+            authProvider.getUserAttributes();
+        } else if ((password != null) && (authProvider.haveCurrentUser())) {
+            authProvider.signIn(password);
+        } else if () {
+
         } else {
             view.changeText(R.string.hello_world);
         }
