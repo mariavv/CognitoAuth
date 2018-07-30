@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
+import com.maria.cognitoauth.model.DataParams;
+import com.maria.cognitoauth.model.DataSaver;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
@@ -51,13 +53,13 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
     }
 
     @Override
-    public void signInSuccessful() {
-
+    public void signInSuccessful(String userToken) {
+        view.getToken(userToken);
     }
 
     @Override
     public void onFailure(Exception exception) {
-
+        view.say(exception.getMessage());
     }
 
     private void login(String login, String pass) {
@@ -70,5 +72,9 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     private boolean isAuthParamsCorrect(int loginLen, int passLen) {
         return isParamCorrect(loginLen) && isPassCorrect(passLen);
+    }
+
+    public void onGetToken(String userToken, Context context) {
+        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
     }
 }

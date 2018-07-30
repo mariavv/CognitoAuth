@@ -50,7 +50,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     }
 
     @Override
-    public void signInSuccessful() {
+    public void signInSuccessful(String userToken) {
         authProvider.getUserAttributes();
     }
 

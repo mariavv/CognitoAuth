@@ -55,7 +55,7 @@ public class AuthenticationProvider {
     }
 
     public interface SignInListener extends AuthErrorListener {
-        void signInSuccessful();
+        void signInSuccessful(String userToken);
     }
 
     public interface AuthListener extends SignInListener {
@@ -140,6 +140,10 @@ public class AuthenticationProvider {
         userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, Regions.fromName(REGION));
     }
 
+    private String getAttr(Map attributes, String attr) {
+        return attributes.get(attr).toString();
+    }
+
     private SignUpHandler signUpHandler = new SignUpHandler() {
         @Override
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
@@ -170,14 +174,10 @@ public class AuthenticationProvider {
         }
     };
 
-    private String getAttr(Map attributes, String attr) {
-        return  attributes.get(attr).toString();
-    }
-
     private AuthenticationHandler handler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            authListener.signInSuccessful();
+            authListener.signInSuccessful(userSession.getIdToken().getJWTToken());
         }
 
         @Override

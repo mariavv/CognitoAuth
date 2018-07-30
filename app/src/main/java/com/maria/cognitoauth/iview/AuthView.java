@@ -4,4 +4,6 @@ public interface AuthView extends RegisterView {
     void close(int resultCanceled);
 
     void startRegisterActivity(final int reguestCode, String login, String pass);
+
+    void getToken(String userToken);
 }

@@ -114,6 +114,11 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
         startActivityForResult(RegisterActivity.start(this, login, pass), reguestCode);
     }
 
+    @Override
+    public void getToken(String userToken) {
+        presenter.onGetToken(userToken, this);
+    }
+
     private void configViews() {
         loginEd = findViewById(R.id.loginEd);
         passEd = findViewById(R.id.passEd);
