@@ -64,7 +64,7 @@
                         android:layout_marginLeft="@dimen/auth_margin"
                         android:layout_marginRight="@dimen/auth_margin"
                         android:fontFamily="sans-serif"
-                        android:hint="@string/auth_ed_login_hint"
+                        android:hint="@string/auth_ed_phone_hint"
                         android:inputType="textEmailAddress"
                         android:labelFor="@id/loginEd"
                         android:lineSpacingExtra="@dimen/auth_text_size"

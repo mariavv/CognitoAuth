@@ -78,16 +78,16 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     }
 
     private void checkAuth(Context context) {
-        String userId = DataSaver.getParam(DataParams.USER_ID, DataParams.DEF_VALUE, context);
+        String login = DataSaver.getParam(DataParams.LOGIN, DataParams.DEF_VALUE, context);
         String password = DataSaver.getParam(DataParams.PASSWORD, DataParams.DEF_VALUE, context);
         //if (userId != null) {
         //TODO
         if (authProvider.isUserSigned()) {
-            authProvider.getUserAttributes();
-        } else if ((password != null) && (authProvider.haveCurrentUser())) {
-            authProvider.signIn(password);
-        } else if () {
-
+            view.changeText(authProvider.getUserId());
+        } else if (login != null) {
+            authProvider.signIn(login, password);
+        } else if (authProvider.haveCurrentUser()) {
+            authProvider.signIn(null, password);
         } else {
             view.changeText(R.string.hello_world);
         }

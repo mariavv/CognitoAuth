@@ -61,7 +61,7 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
     }
 
     private void login(String login, String pass) {
-        authProvider.signIn(pass);
+        authProvider.signIn(login, pass);
     }
 
     private void signOut() {

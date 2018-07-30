@@ -25,7 +25,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     private final RegisterPresenter presenter = new RegisterPresenter(this);
 
-    private EditText nameEd;
+    private EditText phoneEd;
     private EditText loginEd;
     private EditText emailEd;
     private EditText passEd;
@@ -69,8 +69,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
-    public void close(String userId) {
-        presenter.onClose(userId, passEd.getText().toString(), this);
+    public void close(String login) {
+        presenter.onClose(phoneEd.getText().toString(), login, emailEd.getText().toString(), passEd.getText().toString(), this);
         finishActivity();
     }
 
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     private void configViews() {
-        nameEd = findViewById(R.id.nameEd);
+        phoneEd = findViewById(R.id.phoneEd);
         loginEd = findViewById(R.id.loginEd);
         emailEd = findViewById(R.id.emailEd);
         passEd = findViewById(R.id.passEd);
@@ -105,13 +105,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
 
         //todo
-        nameEd.setText("qwerrr");
-        loginEd.setText("89001002001");
-        emailEd.setText("qwerrr@gmail.ru");
+        phoneEd.setText("89001003000");
+        loginEd.setText("qwer3r");
+        emailEd.setText("qwer3r@gmail.ru");
         passEd.setText("Qwerty12");
         confirmPassEd.setText("Qwerty12");
 
-        addTextChagedListener(nameEd);
+        addTextChagedListener(phoneEd);
         addTextChagedListener(loginEd);
         addTextChagedListener(emailEd);
         addTextChagedListener(passEd);
@@ -119,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.regBtnPressed(edGetText(nameEd), edGetText(loginEd), edGetText(emailEd),
+                presenter.regBtnPressed(edGetText(phoneEd), edGetText(loginEd), edGetText(emailEd),
                         edGetText(passEd), edGetText(confirmPassEd));
             }
         });
@@ -134,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                presenter.textChanged(edGetTextLength(nameEd), edGetTextLength(loginEd),
+                presenter.textChanged(edGetTextLength(phoneEd), edGetTextLength(loginEd),
                         edGetTextLength(emailEd), edGetTextLength(passEd), edGetTextLength(confirmPassEd));
             }
 

@@ -19,7 +19,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHan
 import com.amazonaws.regions.Regions;
 import com.maria.cognitoauth.R;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -30,7 +29,7 @@ public class AuthenticationProvider {
     private static final String REGION = "us-east-2";
 
     private static final String ATTR_EMAIL = "email";
-    private static final String ATTR_USERNAME = "preferred_username";
+    private static final String ATTR_NAME = "preferred_username";
 
     private Listener listener;
     private SignUpListener signUpListener;
@@ -39,6 +38,7 @@ public class AuthenticationProvider {
 
     private CognitoUserPool userPool;
 
+    private String login;
     private String password;
 
     public interface Listener extends SignUpListener, SignInListener, AuthListener {
@@ -98,12 +98,13 @@ public class AuthenticationProvider {
     public void register(String name, String login, String email, String pass) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute(ATTR_EMAIL, email);
-        userAttributes.addAttribute(ATTR_USERNAME, name);
+        userAttributes.addAttribute(ATTR_NAME, name);
 
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }
 
-    public void signIn(String password) {
+    public void signIn(String login, String password) {
+        this.login = login;
         this.password = password;
         getCurrentUser().getSessionInBackground(handler);
     }
@@ -127,6 +128,7 @@ public class AuthenticationProvider {
     private void initFields(Context context) {
         createCognitoUserPool(context);
 
+        login = null;
         password = null;
     }
 
@@ -159,7 +161,7 @@ public class AuthenticationProvider {
         @Override
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             Map attributes = cognitoUserDetails.getAttributes().getAttributes();
-            authListener.onGetUserAttributes(getAttr(attributes, ATTR_USERNAME), getAttr(attributes, ATTR_EMAIL));
+            authListener.onGetUserAttributes(getAttr(attributes, ATTR_NAME), getAttr(attributes, ATTR_EMAIL));
         }
 
         @Override
@@ -180,7 +182,13 @@ public class AuthenticationProvider {
 
         @Override
         public void getAuthenticationDetails(final AuthenticationContinuation continuation, final String userID) {
-            AuthenticationDetails authDetails = new AuthenticationDetails(userID, password, null);
+            String userId;
+            if (login != null) {
+                userId = login;
+            } else {
+                userId = userID;
+            }
+            AuthenticationDetails authDetails = new AuthenticationDetails(userId, password, null);
 
             continuation.setAuthenticationDetails(authDetails);
             continuation.continueTask();
@@ -211,7 +219,7 @@ public class AuthenticationProvider {
 
         @Override
         public void onFailure(final Exception exception) {
-            // Authentication failed, probe exception for the cause
+            authListener.onFailure(exception);
         }
     };
 }

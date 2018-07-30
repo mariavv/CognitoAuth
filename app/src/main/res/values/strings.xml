@@ -18,7 +18,7 @@
     <string name="auth_login">login</string>
     <string name="auth_name">name</string>
     <string name="auth_sova">sova</string>
-    <string name="auth_ed_login_hint">Phone number (login)</string>
+    <string name="auth_ed_phone_hint">Phone number</string>
     <string name="auth_btn_text_not_fill">Not all fields filled</string>
     <string name="auth_btn_reg">Registration</string>
     <string name="auth_ed_pass_hint">Password</string>
@@ -26,7 +26,7 @@
     <string name="auth_btn_text_signin">Sign in</string>
     <string name="sideBar_sign_up">SignUp</string>
     <string name="reg_ed_email_hint">Email</string>
-    <string name="reg_ed_name_hint">Name</string>
+    <string name="reg_ed_login_hint">Login</string>
 
     <string name="reg_btn_text_signin">Sign up</string>
     <string name="regSuccess">Register Successful</string>

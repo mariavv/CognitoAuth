@@ -21,9 +21,9 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
-    public void textChanged(int nameLength, int loginLength, int emailLength,
+    public void textChanged(int phoneLength, int loginLength, int emailLength,
                             int passLength, int confirmPassLength) {
-        if (isRegParamsCorrect(nameLength, loginLength, emailLength, passLength, confirmPassLength)) {
+        if (isRegParamsCorrect(phoneLength, loginLength, emailLength, passLength, confirmPassLength)) {
             view.setUpSignBtn(R.string.reg_btn_text_signin,
                     R.color.colorAuthSigninBtnGreen, true);
         } else {
@@ -32,16 +32,18 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         }
     }
 
-    public void regBtnPressed(String name, String login, String email, String pass, String confirmPass) {
+    public void regBtnPressed(String phone, String login, String email, String pass, String confirmPass) {
         if (pass.equals(confirmPass)) {
-            authProvider.register(name, login, email, pass);
+            authProvider.register(phone, login, email, pass);
         } else {
             view.say(R.string.pass_not_equals);
         }
     }
 
-    public void onClose(String userId, String password, Context context) {
-        DataSaver.saveParam(DataParams.USER_ID, userId, context);
+    public void onClose(String phone, String login, String email, String password, Context context) {
+        DataSaver.saveParam(DataParams.PHONE, phone, context);
+        DataSaver.saveParam(DataParams.LOGIN, login, context);
+        DataSaver.saveParam(DataParams.EMAIL, email, context);
         DataSaver.saveParam(DataParams.PASSWORD, password, context);
         view.say(R.string.regSuccess);
     }
@@ -52,13 +54,13 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
 
     @Override
     public void onFailure(Exception exception) {
-
+        view.say(exception.getMessage());
     }
 
     @Override
-    public void onRegSuccess(String userId) {
+    public void onRegSuccess(String login) {
         //authProvider.signIn();
-        view.close(userId);
+        view.close(login);
     }
 
     @Override
