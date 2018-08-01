@@ -70,7 +70,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @Override
     public void close(String login) {
-        presenter.onClose(phoneEd.getText().toString(), login, emailEd.getText().toString(), passEd.getText().toString(), this);
+        presenter.onClose(phoneEd.getText().toString(), loginEd.getText().toString(),
+                emailEd.getText().toString(), passEd.getText().toString(), this);
         finishActivity();
     }
 
@@ -105,9 +106,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
 
         //todo
-        phoneEd.setText("89001003000");
-        loginEd.setText("qwer3r");
-        emailEd.setText("qwer3r@gmail.ru");
+        phoneEd.setText("89001004000");
+        loginEd.setText("qwerty111");
+        emailEd.setText("testproj28@gmail.ru");
         passEd.setText("Qwerty12");
         confirmPassEd.setText("Qwerty12");
 

@@ -14,8 +14,10 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Auth
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.regions.Regions;
 import com.maria.cognitoauth.R;
 
@@ -30,6 +32,7 @@ public class AuthenticationProvider {
 
     private static final String ATTR_EMAIL = "email";
     private static final String ATTR_NAME = "preferred_username";
+    private static final String ATTR_PHONE = "phone_number";
 
     private Listener listener;
     private SignUpListener signUpListener;
@@ -49,7 +52,7 @@ public class AuthenticationProvider {
     }
 
     public interface SignUpListener extends AuthErrorListener {
-        void onRegSuccess(String userId);
+        void onRegSuccess(/*String userId*/);
 
         void onFailure(int resError);
     }
@@ -99,6 +102,7 @@ public class AuthenticationProvider {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute(ATTR_EMAIL, email);
         userAttributes.addAttribute(ATTR_NAME, name);
+        //userAttributes.addAttribute(ATTR_PHONE, name);
 
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }
@@ -149,10 +153,57 @@ public class AuthenticationProvider {
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             if (!signUpConfirmationState) {
-                signUpListener.onRegSuccess(user.getUserId());
+                resendConfirmationCode(user);
+                //user.resendConfirmationCode(ConfHandler);
+                user.confirmSignUpInBackground("1", true, confirmationCallback);
+                //signUpListener.onRegSuccess(user.getUserId());
             } else {
-                signUpListener.onFailure(R.string.not_confirmed);
+                onRegSuccess();
             }
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            signUpListener.onFailure(exception);
+        }
+    };
+
+    private void onRegSuccess() {
+        signUpListener.onRegSuccess();
+    }
+
+    public void resendConfirmationCode(CognitoUser user) {
+        user.resendConfirmationCodeInBackground(new VerificationHandler() {
+            @Override
+            public void onSuccess(CognitoUserCodeDeliveryDetails verificationCodeDeliveryMedium) {
+                int c = 5;
+                //mCallback.onResendConfirmationCodeSuccess(verificationCodeDeliveryMedium.getDeliveryMedium());
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                int c = 5;
+                //mCallback.onFailure(PROCESS_RESEND_CONFIRMATION_CODE, exception, CAUSE_UNKNOWN, MESSAGE_UNKNOWN_ERROR);
+            }
+        });
+    }
+
+    private GenericHandler ConfHandler = new GenericHandler() {
+
+        @Override
+        public void onSuccess() {
+            // Confirmation code was successfully sent!
+        }
+        @Override
+        public void onFailure(Exception exception) {
+            // Confirmation code request failed, probe exception for details
+        }
+    };
+
+    private GenericHandler confirmationCallback = new GenericHandler() {
+        @Override
+        public void onSuccess() {
+            onRegSuccess();
         }
 
         @Override
