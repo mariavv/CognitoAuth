@@ -18,7 +18,7 @@
     <string name="auth_login">login</string>
     <string name="auth_name">name</string>
     <string name="auth_sova">sova</string>
-    <string name="auth_ed_phone_hint">Phone number</string>
+    <string name="auth_ed_login_hint">Login</string>
     <string name="auth_btn_text_not_fill">Not all fields filled</string>
     <string name="auth_btn_reg">Registration</string>
     <string name="auth_ed_pass_hint">Password</string>
@@ -33,4 +33,11 @@
     <string name="not_confirmed">Error! This user must be confirmed!</string>
     <string name="auth_ed_confirmPass_hint">Confirm password</string>
     <string name="pass_not_equals">Password not equals!</string>
+    <string name="user_not_confirmed">User must be confirmed</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="confirmReg_text">Enter confirmation code</string>
+    <string name="confirm">Confirm</string>
+    <string name="reg_activity_name">Registration</string>
+    <string name="profile_activity_name">Profile</string>
 </resources>

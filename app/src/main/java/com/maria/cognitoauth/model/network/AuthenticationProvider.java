@@ -52,7 +52,7 @@ public class AuthenticationProvider {
     }
 
     public interface SignUpListener extends AuthErrorListener {
-        void onRegSuccess(/*String userId*/);
+        void onRegSuccess(/*String userId*/String userId);
 
         void onFailure(int resError);
     }
@@ -141,6 +141,10 @@ public class AuthenticationProvider {
     }
 
     private void createCognitoUserPool(Context context) {
+        final String USER_POOL_ID = "us-east-2_o7jwUazb7";
+        final String CLIENT_ID = "56foj6rrh4vdqaq728fu9qil37";
+        final String CLIENT_SECRET = "1b3oeut42cr03jhqhepeimo6crn2rtqbjl0lkvnsgejodp5053h5";
+        final String REGION = "us-east-2";
         userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, Regions.fromName(REGION));
     }
 
@@ -153,13 +157,13 @@ public class AuthenticationProvider {
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             if (!signUpConfirmationState) {
-                resendConfirmationCode(user);
+                //todo
+                //resendConfirmationCode(user);
                 //user.resendConfirmationCode(ConfHandler);
-                user.confirmSignUpInBackground("1", true, confirmationCallback);
-                //signUpListener.onRegSuccess(user.getUserId());
-            } else {
-                onRegSuccess();
+                //user.confirmSignUpInBackground("1", true, confirmationCallback);
             }
+
+            signUpListener.onRegSuccess(user.getUserId());
         }
 
         @Override
@@ -168,22 +172,16 @@ public class AuthenticationProvider {
         }
     };
 
-    private void onRegSuccess() {
-        signUpListener.onRegSuccess();
-    }
-
     public void resendConfirmationCode(CognitoUser user) {
         user.resendConfirmationCodeInBackground(new VerificationHandler() {
             @Override
             public void onSuccess(CognitoUserCodeDeliveryDetails verificationCodeDeliveryMedium) {
-                int c = 5;
-                //mCallback.onResendConfirmationCodeSuccess(verificationCodeDeliveryMedium.getDeliveryMedium());
+
             }
 
             @Override
             public void onFailure(Exception exception) {
-                int c = 5;
-                //mCallback.onFailure(PROCESS_RESEND_CONFIRMATION_CODE, exception, CAUSE_UNKNOWN, MESSAGE_UNKNOWN_ERROR);
+
             }
         });
     }
@@ -194,6 +192,7 @@ public class AuthenticationProvider {
         public void onSuccess() {
             // Confirmation code was successfully sent!
         }
+
         @Override
         public void onFailure(Exception exception) {
             // Confirmation code request failed, probe exception for details
@@ -203,7 +202,7 @@ public class AuthenticationProvider {
     private GenericHandler confirmationCallback = new GenericHandler() {
         @Override
         public void onSuccess() {
-            onRegSuccess();
+
         }
 
         @Override

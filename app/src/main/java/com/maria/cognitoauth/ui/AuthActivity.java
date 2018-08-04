@@ -110,6 +110,11 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
     }
 
     @Override
+    public void showConfirmDialog() {
+
+    }
+
+    @Override
     public void startRegisterActivity(int reguestCode, String login, String pass) {
         startActivityForResult(RegisterActivity.start(this, login, pass), reguestCode);
     }

@@ -13,5 +13,6 @@
 
     <color name="colorRegisterPrimary">#666361</color>
     <color name="colorRegisterPrimaryDark">#504d4c</color>
+    <color name="colorFragment">#e4d6d6</color>
 
 </resources>

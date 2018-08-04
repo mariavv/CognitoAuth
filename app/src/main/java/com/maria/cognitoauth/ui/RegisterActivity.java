@@ -3,6 +3,7 @@ package com.maria.cognitoauth.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -51,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        showConfirmDialog();
         configViews();
     }
 
@@ -73,6 +74,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         presenter.onClose(phoneEd.getText().toString(), loginEd.getText().toString(),
                 emailEd.getText().toString(), passEd.getText().toString(), this);
         finishActivity();
+    }
+
+    @Override
+    public void showConfirmDialog() {
+        //ConfirmRegistrationFragment confirmFrafment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        ConfirmRegistrationFragment confirmFrafment = ConfirmRegistrationFragment.newInstance();
+        trans.add(R.id.reg_contanier, confirmFrafment);
+        trans.commit();
     }
 
     @Override
@@ -106,11 +116,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
 
         //todo
-        phoneEd.setText("89001004000");
-        loginEd.setText("qwerty111");
+        phoneEd.setText("89001005000");
+        loginEd.setText("qwer");
         emailEd.setText("testproj28@gmail.ru");
-        passEd.setText("Qwerty12");
-        confirmPassEd.setText("Qwerty12");
+        passEd.setText("qqqqqq");
+        confirmPassEd.setText("qqqqqq");
 
         addTextChagedListener(phoneEd);
         addTextChagedListener(loginEd);

@@ -25,4 +25,8 @@
 
     <dimen name="reg_margin_top">30dp</dimen>
     <dimen name="reg_margin_end_bottom">20dp</dimen>
+    <dimen name="confirmReg_inputWidth">100dp</dimen>
+    <dimen name="confirmReg_codeWidth">40dp</dimen>
+    <dimen name="conformReg_frame">10dp</dimen>
+    <dimen name="confirmReg_marginBottom">50dp</dimen>
 </resources>

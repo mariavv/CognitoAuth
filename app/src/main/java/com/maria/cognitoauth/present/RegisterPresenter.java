@@ -58,8 +58,9 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
     }
 
     @Override
-    public void onRegSuccess(/*String login*/) {
-        view.close("login");
+    public void onRegSuccess(String userId) {
+        view.showConfirmDialog();
+        //view.close(userId);
     }
 
     @Override

@@ -23,7 +23,8 @@
         </activity>
 
         <activity
-            android:name=".ui.ProfileActivity" />
+            android:name=".ui.ProfileActivity"
+            android:label="@string/profile_activity_name" />
 
         <activity
             android:name=".ui.AuthActivity"
@@ -31,7 +32,8 @@
             android:theme="@style/AuthTheme" />
 
         <activity
-            android:name=".ui.RegisterActivity" />
+            android:name=".ui.RegisterActivity"
+            android:label="@string/reg_activity_name" />
     </application>
 
 </manifest>

@@ -27,8 +27,9 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
 
-    ext.amazonaws_version = '2.6.8'
+    ext.amazonaws_version = '2.6.26'
     implementation "com.amazonaws:aws-android-sdk-cognitoidentityprovider:$amazonaws_version"
+    //implementation "com.amazonaws:aws-android-sdk-mobile-client:$amazonaws_version"
     //IdentityManager here
     implementation "com.amazonaws:aws-android-sdk-auth-userpools:$amazonaws_version"
 
@@ -36,6 +37,7 @@ dependencies {
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

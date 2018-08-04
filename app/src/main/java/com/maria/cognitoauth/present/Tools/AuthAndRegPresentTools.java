@@ -4,7 +4,7 @@ public class AuthAndRegPresentTools {
     public static final int REGISTER_REQUEST = 3;
 
     private static final int MIN_LENGTH = 1;
-    private static final int PASS_MIN_LENGTH = 8;
+    private static final int PASS_MIN_LENGTH = 6;
 
     public static boolean isPassCorrect(int passLen) {
         return (passLen >= PASS_MIN_LENGTH);
