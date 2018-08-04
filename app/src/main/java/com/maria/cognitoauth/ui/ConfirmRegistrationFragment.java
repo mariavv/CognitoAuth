@@ -21,7 +21,6 @@ public class ConfirmRegistrationFragment extends Fragment implements ConfirmRegi
     Button confirmBtn;
 
     public ConfirmRegistrationFragment() {
-
     }
 
     public static ConfirmRegistrationFragment newInstance() {
