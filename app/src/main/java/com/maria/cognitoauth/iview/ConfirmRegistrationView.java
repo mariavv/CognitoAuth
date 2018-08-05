@@ -1,4 +1,4 @@
 package com.maria.cognitoauth.iview;
 
-public interface ConfirmRegistrationView {
+public interface ConfirmRegistrationView extends IView {
 }

@@ -55,6 +55,8 @@ public class AuthenticationProvider {
         void onRegSuccess(/*String userId*/String userId);
 
         void onFailure(int resError);
+
+        void onConfirmRegSuccess();
     }
 
     public interface SignInListener extends AuthErrorListener {
@@ -96,6 +98,10 @@ public class AuthenticationProvider {
     public void signOut() {
         getCurrentUser().signOut();
         //IdentityManager.getDefaultIdentityManager().signOut();
+    }
+
+    public void confirmReg(String code, String userId) {
+        userPool.getUser(userId).confirmSignUpInBackground(code, true, confirmationCallback);
     }
 
     public void register(String name, String login, String email, String pass) {
@@ -202,7 +208,7 @@ public class AuthenticationProvider {
     private GenericHandler confirmationCallback = new GenericHandler() {
         @Override
         public void onSuccess() {
-
+            signUpListener.onConfirmRegSuccess();
         }
 
         @Override

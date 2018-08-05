@@ -52,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        showConfirmDialog();
         configViews();
     }
 
@@ -70,19 +69,17 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
-    public void close(String login) {
-        presenter.onClose(phoneEd.getText().toString(), loginEd.getText().toString(),
-                emailEd.getText().toString(), passEd.getText().toString(), this);
-        finishActivity();
+    public void showConfirmDialog(String userId) {
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        ConfirmRegistrationFragment confirmFrafment = ConfirmRegistrationFragment.newInstance(userId);
+        trans.add(R.id.reg_contanier, confirmFrafment);
+        trans.commit();
     }
 
     @Override
-    public void showConfirmDialog() {
-        //ConfirmRegistrationFragment confirmFrafment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-        ConfirmRegistrationFragment confirmFrafment = ConfirmRegistrationFragment.newInstance();
-        trans.add(R.id.reg_contanier, confirmFrafment);
-        trans.commit();
+    public void getData() {
+        presenter.getData(phoneEd.getText().toString(), loginEd.getText().toString(),
+                emailEd.getText().toString(), passEd.getText().toString(), this);
     }
 
     @Override
@@ -117,8 +114,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
         //todo
         phoneEd.setText("89001005000");
-        loginEd.setText("qwer");
-        emailEd.setText("testproj28@gmail.ru");
+        loginEd.setText("qwer1");
+        emailEd.setText("testproj28@gmail.com");
         passEd.setText("qqqqqq");
         confirmPassEd.setText("qqqqqq");
 

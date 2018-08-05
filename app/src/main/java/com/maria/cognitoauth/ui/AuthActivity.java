@@ -105,13 +105,13 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
     }
 
     @Override
-    public void close(String userId) {
+    public void showConfirmDialog(String userId) {
 
     }
 
     @Override
-    public void showConfirmDialog() {
-
+    public void getData() {
+        //do nothing
     }
 
     @Override

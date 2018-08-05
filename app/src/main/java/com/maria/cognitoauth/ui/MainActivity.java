@@ -64,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
+    public void changeText(String name) {
+        helloView.setText(String.format(getString(R.string.hello_user), name));
+        //setText(name);
+    }
+
+    @Override
     public void close() {
         AuthAndRegTools.finishActivity(this);
     }
@@ -91,11 +97,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void startRegisterActivity(int reguestCode) {
         startActivityForResult(RegisterActivity.start(this), reguestCode);
-    }
-
-    @Override
-    public void changeText(String name) {
-        helloView.setText(name);
     }
 
     @Override
