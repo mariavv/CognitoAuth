@@ -30,7 +30,7 @@
                     android:layout_marginLeft="@dimen/auth_margin"
                     android:layout_marginRight="@dimen/auth_margin"
                     android:fontFamily="sans-serif"
-                    android:hint="@string/auth_ed_login_hint"
+                    android:hint="@string/auth_login"
                     android:inputType="phone"
                     android:labelFor="@id/phoneEd"
                     android:lineSpacingExtra="@dimen/auth_text_size"
@@ -46,15 +46,15 @@
                 android:layout_marginTop="@dimen/reg_margin_top">
 
                 <EditText
-                    android:id="@+id/loginEd"
+                    android:id="@+id/nameEd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/auth_margin"
                     android:layout_marginRight="@dimen/auth_margin"
                     android:fontFamily="sans-serif"
-                    android:hint="@string/reg_ed_login_hint"
+                    android:hint="@string/reg_ed_name_hint"
                     android:inputType="textPersonName"
-                    android:labelFor="@id/loginEd"
+                    android:labelFor="@id/nameEd"
                     android:lineSpacingExtra="@dimen/auth_text_size"
                     android:textColor="@color/colorAuthText"
                     android:textSize="@dimen/auth_text_size"

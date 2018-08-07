@@ -26,10 +26,10 @@
         app:riv_border_color="@color/colorMainSideRivBorder"
         app:riv_mutate_background="true"
         app:riv_tile_mode="repeat"
-        android:src="@drawable/default_user_photo" />
+        android:src="@drawable/ic_launcher_background" />
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -41,5 +41,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tool:text="@string/auth_name" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tool:text="@string/header_email" />
 
 </LinearLayout>

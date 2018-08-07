@@ -19,7 +19,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetail
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.regions.Regions;
-import com.maria.cognitoauth.R;
 
 import java.util.Map;
 
@@ -32,7 +31,6 @@ public class AuthenticationProvider {
 
     private static final String ATTR_EMAIL = "email";
     private static final String ATTR_NAME = "preferred_username";
-    private static final String ATTR_PHONE = "phone_number";
 
     private Listener listener;
     private SignUpListener signUpListener;
@@ -104,11 +102,10 @@ public class AuthenticationProvider {
         userPool.getUser(userId).confirmSignUpInBackground(code, true, confirmationCallback);
     }
 
-    public void register(String name, String login, String email, String pass) {
+    public void register(String login, String name, String email, String pass) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute(ATTR_EMAIL, email);
         userAttributes.addAttribute(ATTR_NAME, name);
-        //userAttributes.addAttribute(ATTR_PHONE, name);
 
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }

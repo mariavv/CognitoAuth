@@ -12,4 +12,6 @@ public interface MainView extends IView {
     void changeText(String name);
 
     void setUserAttributes(String name, String email);
+
+    void fillProfileInfo(String login, String param, String param1);
 }

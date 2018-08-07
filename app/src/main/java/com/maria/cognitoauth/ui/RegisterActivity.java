@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     public void getData() {
         presenter.getData(phoneEd.getText().toString(), loginEd.getText().toString(),
-                emailEd.getText().toString(), passEd.getText().toString(), this);
+                emailEd.getText().toString(), passEd.getText().toString());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     private void configViews() {
         phoneEd = findViewById(R.id.phoneEd);
-        loginEd = findViewById(R.id.loginEd);
+        loginEd = findViewById(R.id.nameEd);
         emailEd = findViewById(R.id.emailEd);
         passEd = findViewById(R.id.passEd);
         confirmPassEd = findViewById(R.id.confirmPassEd);

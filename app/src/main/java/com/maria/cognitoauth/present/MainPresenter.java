@@ -17,10 +17,13 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
 
     private MainView view;
 
+    private Context context;
+
     private AuthenticationProvider authProvider;
 
     public MainPresenter(MainView view) {
         this.view = view;
+        this.context = (Context) view;
         authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
@@ -51,6 +54,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
 
     @Override
     public void signInSuccessful(String userToken) {
+        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
         authProvider.getUserAttributes();
     }
 
@@ -78,16 +82,18 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     }
 
     private void checkAuth(Context context) {
-        String login = DataSaver.getParam(DataParams.LOGIN, DataParams.DEF_VALUE, context);
+        String login = DataSaver.getParam(DataParams.PHONE, DataParams.DEF_VALUE, context);
         String password = DataSaver.getParam(DataParams.PASSWORD, DataParams.DEF_VALUE, context);
         //if (userId != null) {
         //TODO
-        if (authProvider.isUserSigned()) {
-            view.changeText(authProvider.getUserId());
-        } else if (login != null) {
+        if (login != null) {
             authProvider.signIn(login, password);
-        } else if (authProvider.haveCurrentUser()) {
-            authProvider.signIn(null, password);
+            view.fillProfileInfo(login, DataSaver.getParam(DataParams.NAME, "",context),
+                    DataSaver.getParam(DataParams.EMAIL, "",context));
+        } else if (authProvider.isUserSigned()) {
+            view.changeText(authProvider.getUserId());
+        //} else if (authProvider.haveCurrentUser()) {
+        //    authProvider.signIn(null, password);
         } else {
             view.changeText(R.string.hello_world);
         }

@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private DrawerLayout drawer;
     private TextView helloView;
 
+    private TextView tvLogin;
+    private TextView tvPhone;
+    private TextView tvEmail;
+
     private final MainPresenter presenter = new MainPresenter(this);
 
     @Override
@@ -104,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         //todo show and save
     }
 
+    @Override
+    public void fillProfileInfo(String login, String phone, String email) {
+
+    }
+
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        View header = navigationView.getHeaderView(0);
+        tvLogin = header.findViewById(R.id.tvPhone);
+        tvPhone = header.findViewById(R.id.tvName);
+        tvEmail = header.findViewById(R.id.tvEmail);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
