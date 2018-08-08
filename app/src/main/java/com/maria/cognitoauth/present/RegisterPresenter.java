@@ -37,7 +37,7 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
 
     public void regBtnPressed(String phone, String name, String email, String pass, String confirmPass) {
         if (pass.equals(confirmPass)) {
-            authProvider.register(name, phone, email, pass);
+            authProvider.register(phone, name, email, pass);
         } else {
             view.say(R.string.pass_not_equals);
         }

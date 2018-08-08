@@ -41,4 +41,7 @@
     <string name="profile_activity_name">Profile</string>
     <string name="confirm_success">Confirm successful</string>
     <string name="header_email">email</string>
+    <string name="loginStr">User: %s></string>
+    <string name="nameStr">Name: %s></string>
+    <string name="emailStr">Email: %s></string>
 </resources>

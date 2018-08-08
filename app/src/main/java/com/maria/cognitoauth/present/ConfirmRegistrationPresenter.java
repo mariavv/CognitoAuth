@@ -23,7 +23,6 @@ public class ConfirmRegistrationPresenter implements AuthenticationProvider.Sign
 
     public void onBtnClick(String code, String userId) {
         authProvider.confirmReg(code, userId);
-        view.close();
     }
 
     @Override
@@ -44,5 +43,6 @@ public class ConfirmRegistrationPresenter implements AuthenticationProvider.Sign
     @Override
     public void onConfirmRegSuccess() {
         view.say(R.string.confirm_success);
+        view.close();
     }
 }

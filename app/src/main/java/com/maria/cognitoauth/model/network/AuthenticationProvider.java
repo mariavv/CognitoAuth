@@ -50,7 +50,7 @@ public class AuthenticationProvider {
     }
 
     public interface SignUpListener extends AuthErrorListener {
-        void onRegSuccess(/*String userId*/String userId);
+        void onRegSuccess(String userId);
 
         void onFailure(int resError);
 
@@ -95,7 +95,6 @@ public class AuthenticationProvider {
 
     public void signOut() {
         getCurrentUser().signOut();
-        //IdentityManager.getDefaultIdentityManager().signOut();
     }
 
     public void confirmReg(String code, String userId) {
@@ -104,8 +103,8 @@ public class AuthenticationProvider {
 
     public void register(String login, String name, String email, String pass) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
-        userAttributes.addAttribute(ATTR_EMAIL, email);
         userAttributes.addAttribute(ATTR_NAME, name);
+        userAttributes.addAttribute(ATTR_EMAIL, email);
 
         userPool.signUpInBackground(login, pass, userAttributes, null, signUpHandler);
     }
@@ -159,14 +158,11 @@ public class AuthenticationProvider {
         @Override
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-            if (!signUpConfirmationState) {
-                //todo
-                //resendConfirmationCode(user);
-                //user.resendConfirmationCode(ConfHandler);
-                //user.confirmSignUpInBackground("1", true, confirmationCallback);
+            if (signUpConfirmationState) {
+                signUpListener.onConfirmRegSuccess();
+            } else {
+                signUpListener.onRegSuccess(user.getUserId());
             }
-
-            signUpListener.onRegSuccess(user.getUserId());
         }
 
         @Override
@@ -235,13 +231,13 @@ public class AuthenticationProvider {
 
         @Override
         public void getAuthenticationDetails(final AuthenticationContinuation continuation, final String userID) {
-            String userId;
+            String user_Id = "";
             if (login != null) {
-                userId = login;
+                user_Id = login;
             } else {
-                userId = userID;
+                user_Id = userID;
             }
-            AuthenticationDetails authDetails = new AuthenticationDetails(userId, password, null);
+            AuthenticationDetails authDetails = new AuthenticationDetails(user_Id, password, null);
 
             continuation.setAuthenticationDetails(authDetails);
             continuation.continueTask();

@@ -69,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void changeText(String name) {
-        helloView.setText(String.format(getString(R.string.hello_user), name));
-        //setText(name);
+        helloView.setText(setProfileStr(R.string.hello_user, name));
     }
 
     @Override
@@ -109,9 +108,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void fillProfileInfo(String login, String phone, String email) {
-
+    public void fillProfileInfo(String login, String name, String email) {
+        tvLogin.setText(setProfileStr(R.string.loginStr, login));
+        tvPhone.setText(setProfileStr(R.string.nameStr, name));
+        tvEmail.setText(setProfileStr(R.string.emailStr, email));
     }
+
+    private String setProfileStr(int profileStr, String param) {
+        return String.format(getString(profileStr), param);
+    }
+
 
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);

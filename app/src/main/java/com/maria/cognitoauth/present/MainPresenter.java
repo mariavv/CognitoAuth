@@ -56,6 +56,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     public void signInSuccessful(String userToken) {
         DataSaver.saveParam(DataParams.TOKEN, userToken, context);
         authProvider.getUserAttributes();
+        view.changeText(authProvider.getUserId());
     }
 
     @Override
@@ -66,7 +67,6 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     @Override
     public void onGetUserAttributes(String name, String email) {
         view.setUserAttributes(name, email);
-        view.changeText(name);
     }
 
     public void exitBtnPressed() {
