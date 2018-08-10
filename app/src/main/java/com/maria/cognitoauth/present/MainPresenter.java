@@ -8,6 +8,7 @@ import com.maria.cognitoauth.iview.MainView;
 import com.maria.cognitoauth.model.DataParams;
 import com.maria.cognitoauth.model.DataSaver;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
+import com.maria.cognitoauth.util.Logger;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
 
@@ -27,12 +28,12 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
         authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
-    public void onCreate(Context context) {
-        checkAuth(context);
+    public void onCreate() {
+        checkAuth();
     }
 
-    public void onResume(Context context) {
-        checkAuth(context);
+    public void onResume() {
+        checkAuth();
     }
 
     public void detachView() {
@@ -54,6 +55,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
 
     @Override
     public void signInSuccessful(String userToken) {
+        Logger.log("main presenter: signInSuccessful");
         DataSaver.saveParam(DataParams.TOKEN, userToken, context);
         authProvider.getUserAttributes();
         view.changeText(authProvider.getUserId());
@@ -81,17 +83,22 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
         view.startRegisterActivity(REGISTER_REQUEST);
     }
 
-    private void checkAuth(Context context) {
+    private void checkAuth() {
         String login = DataSaver.getParam(DataParams.PHONE, DataParams.DEF_VALUE, context);
         String password = DataSaver.getParam(DataParams.PASSWORD, DataParams.DEF_VALUE, context);
-        //if (userId != null) {
+        Logger.log("main presenter  " + login);
         //TODO
         if (login != null) {
+            Logger.log("main presenter  1 begin");
             authProvider.signIn(login, password);
+            view.changeText(authProvider.getUserId());
             view.fillProfileInfo(login, DataSaver.getParam(DataParams.NAME, "",context),
                     DataSaver.getParam(DataParams.EMAIL, "",context));
+            Logger.log("main presenter  1 end");
         } else if (authProvider.isUserSigned()) {
+            Logger.log("main presenter  2 begin" + authProvider.getUserId());
             view.changeText(authProvider.getUserId());
+            Logger.log("main presenter  2 end");
         //} else if (authProvider.haveCurrentUser()) {
         //    authProvider.signIn(null, password);
         } else {

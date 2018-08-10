@@ -8,40 +8,36 @@
     <string name="sideBar_sign_in">SignIn</string>
     <string name="sideBar_sign_out">SignOut</string>
     <string name="sideBar_exit">Exit</string>
+    <string name="sideBar_sign_up">SignUp</string>
+    <string name="loginStr">User: %s></string>
+    <string name="nameStr">Name: %s></string>
+    <string name="emailStr">Email: %s></string>
+    <string name="header_email">email</string>
 
-    <!--<string-array name="sideBar_items">
-        <item>SignIn</item>
-        <item>SignOut</item>
-    </string-array>-->
-
-    <string name="auth_activity_name">Authorizatoin</string>
+    <string name="auth_activity_name">Authorization</string>
     <string name="auth_login">Login (phone number)</string>
     <string name="auth_name">name</string>
     <string name="auth_sova">sova</string>
     <string name="auth_btn_text_not_fill">Not all fields filled</string>
+    <string name="auth_signingIn">Signing in…</string>
     <string name="auth_btn_reg">Registration</string>
     <string name="auth_ed_pass_hint">Password</string>
     <string name="auth_fill_screen">fill_screen</string>
     <string name="auth_btn_text_signin">Sign in</string>
-    <string name="sideBar_sign_up">SignUp</string>
+    <string name="auth_ed_confirmPass_hint">Confirm password</string>
+
     <string name="reg_ed_email_hint">Email</string>
     <string name="reg_ed_name_hint">Name</string>
-
     <string name="reg_btn_text_signin">Sign up</string>
     <string name="regSuccess">Register Successful</string>
     <string name="not_confirmed">Error! This user must be confirmed!</string>
-    <string name="auth_ed_confirmPass_hint">Confirm password</string>
     <string name="pass_not_equals">Password not equals!</string>
     <string name="user_not_confirmed">User must be confirmed</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="confirmReg_text">Enter confirmation code</string>
     <string name="confirm">Confirm</string>
     <string name="reg_activity_name">Registration</string>
     <string name="profile_activity_name">Profile</string>
     <string name="confirm_success">Confirm successful</string>
-    <string name="header_email">email</string>
-    <string name="loginStr">User: %s></string>
-    <string name="nameStr">Name: %s></string>
-    <string name="emailStr">Email: %s></string>
+
 </resources>

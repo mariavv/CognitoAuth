@@ -5,5 +5,7 @@ public interface AuthView extends RegisterView {
 
     void startRegisterActivity(final int reguestCode, String login, String pass);
 
-    void getToken(String userToken);
+    void setSigningInState();
+
+    void setSignInState();
 }

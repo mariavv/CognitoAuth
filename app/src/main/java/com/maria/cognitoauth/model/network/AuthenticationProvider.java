@@ -19,6 +19,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetail
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.regions.Regions;
+import com.maria.cognitoauth.util.Logger;
 
 import java.util.Map;
 
@@ -59,12 +60,12 @@ public class AuthenticationProvider {
 
     public interface SignInListener extends AuthErrorListener {
         void signInSuccessful(String userToken);
+
+        void onGetUserAttributes(String name, String email);
     }
 
     public interface AuthListener extends SignInListener {
         void signOutSuccessful();
-
-        void onGetUserAttributes(String name, String email);
     }
 
     public AuthenticationProvider(Listener listener, Context context) {
@@ -89,6 +90,7 @@ public class AuthenticationProvider {
 
     public AuthenticationProvider(AuthListener authListener, Context context) {
         this.authListener = authListener;
+        this.signInListener = authListener;
 
         initFields(context);
     }
@@ -110,9 +112,11 @@ public class AuthenticationProvider {
     }
 
     public void signIn(String login, String password) {
-        this.login = login;
-        this.password = password;
-        getCurrentUser().getSessionInBackground(handler);
+        if (userPool.getUser(login) != null) {
+            this.login = login;
+            this.password = password;
+            getCurrentUser().getSessionInBackground(handler);
+        }
     }
 
     public void getUserAttributes() {
@@ -226,18 +230,19 @@ public class AuthenticationProvider {
     private AuthenticationHandler handler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            authListener.signInSuccessful(userSession.getIdToken().getJWTToken());
+            Logger.log(userSession.getIdToken().getJWTToken());
+            signInListener.signInSuccessful(userSession.getIdToken().getJWTToken());
         }
 
         @Override
         public void getAuthenticationDetails(final AuthenticationContinuation continuation, final String userID) {
-            String user_Id = "";
+            String uId = "";
             if (login != null) {
-                user_Id = login;
+                uId = login;
             } else {
-                user_Id = userID;
+                uId = userID;
             }
-            AuthenticationDetails authDetails = new AuthenticationDetails(user_Id, password, null);
+            AuthenticationDetails authDetails = new AuthenticationDetails(uId, password, null);
 
             continuation.setAuthenticationDetails(authDetails);
             continuation.continueTask();
@@ -268,7 +273,7 @@ public class AuthenticationProvider {
 
         @Override
         public void onFailure(final Exception exception) {
-            authListener.onFailure(exception);
+            signInListener.onFailure(exception);
         }
     };
 }

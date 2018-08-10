@@ -12,16 +12,19 @@ import com.maria.cognitoauth.model.network.AuthenticationProvider;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.saveData;
 
 public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     private AuthView view;
 
+    private Context context;
+
     private AuthenticationProvider authProvider;
 
     public AuthPresenter(AuthView view) {
         this.view = view;
-
+        this.context = (Context) view;
         authProvider = new AuthenticationProvider(this, (Context) view);
     }
 
@@ -54,15 +57,24 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     @Override
     public void signInSuccessful(String userToken) {
-        view.getToken(userToken);
+        saveData(null, null, null, null, context);
+        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
+        view.close();
+    }
+
+    @Override
+    public void onGetUserAttributes(String name, String email) {
+
     }
 
     @Override
     public void onFailure(Exception exception) {
         view.say(exception.getMessage());
+        view.setSignInState();
     }
 
     private void login(String login, String pass) {
+        view.setSigningInState();
         authProvider.signIn(login, pass);
     }
 
@@ -72,9 +84,5 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
     private boolean isAuthParamsCorrect(int loginLen, int passLen) {
         return isParamCorrect(loginLen) && isPassCorrect(passLen);
-    }
-
-    public void onGetToken(String userToken, Context context) {
-        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
     }
 }

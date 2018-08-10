@@ -4,12 +4,11 @@ import android.content.Context;
 
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.RegisterView;
-import com.maria.cognitoauth.model.DataParams;
-import com.maria.cognitoauth.model.DataSaver;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;
+import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.saveData;
 
 public class RegisterPresenter implements AuthenticationProvider.SignUpListener {
     private RegisterView view;
@@ -41,13 +40,6 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         } else {
             view.say(R.string.pass_not_equals);
         }
-    }
-
-    private void saveData(String phone, String name, String email, String password) {
-        DataSaver.saveParam(DataParams.PHONE, phone, context);
-        DataSaver.saveParam(DataParams.NAME, name, context);
-        DataSaver.saveParam(DataParams.EMAIL, email, context);
-        DataSaver.saveParam(DataParams.PASSWORD, password, context);
     }
 
     public void detachView() {
@@ -91,6 +83,6 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
     }
 
     public void getData(String phone, String name, String email, String password) {
-        saveData(phone, name, email, password);
+        saveData(phone, name, email, password, context);
     }
 }

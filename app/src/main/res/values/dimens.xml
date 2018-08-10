@@ -30,4 +30,6 @@
     <dimen name="conformReg_frame">10dp</dimen>
     <dimen name="confirmReg_marginBottom">50dp</dimen>
     <dimen name="confirmReg_margin">10dp</dimen>
+
+    <dimen name="progressBar_size">40dp</dimen>
 </resources>

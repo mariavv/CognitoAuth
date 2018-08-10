@@ -84,7 +84,7 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
 
     @Override
     public void close() {
-        //do nothing
+        AuthAndRegTools.finishActivity(this);
     }
 
     @Override
@@ -120,8 +120,18 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
     }
 
     @Override
-    public void getToken(String userToken) {
-        presenter.onGetToken(userToken, this);
+    public void setSigningInState() {
+        setSignInBtnState(R.string.auth_signingIn, false);
+    }
+
+    @Override
+    public void setSignInState() {
+        setSignInBtnState(R.string.sign_in_button_text, true);
+    }
+
+    private void setSignInBtnState(int resSingInBtnText, boolean enabled) {
+        signinBtn.setText(resSingInBtnText);
+        signinBtn.setEnabled(enabled);
     }
 
     private void configViews() {

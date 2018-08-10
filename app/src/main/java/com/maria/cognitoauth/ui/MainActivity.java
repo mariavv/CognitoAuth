@@ -16,6 +16,7 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.MainView;
 import com.maria.cognitoauth.present.MainPresenter;
 import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
+import com.maria.cognitoauth.util.Logger;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
@@ -35,15 +36,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Logger.log("*******************************************");
+
         initViews();
 
-        presenter.onCreate(this);
+        presenter.onCreate();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //todo presenter.onResume(this);
+        //todo presenter.onResume();
     }
 
     @Override
