@@ -6,6 +6,8 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.ConfirmRegistrationView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
 
+import static com.maria.cognitoauth.ui.Tools.UiTools.getResultOk;
+
 public class ConfirmRegistrationPresenter implements AuthenticationProvider.SignUpListener {
     private ConfirmRegistrationView view;
 
@@ -43,6 +45,6 @@ public class ConfirmRegistrationPresenter implements AuthenticationProvider.Sign
     @Override
     public void onConfirmRegSuccess() {
         view.say(R.string.confirm_success);
-        view.close();
+        view.close(getResultOk());
     }
 }

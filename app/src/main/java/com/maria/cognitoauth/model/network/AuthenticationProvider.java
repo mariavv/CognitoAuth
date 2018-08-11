@@ -59,7 +59,7 @@ public class AuthenticationProvider {
     }
 
     public interface SignInListener extends AuthErrorListener {
-        void signInSuccessful(String userToken);
+        void signInSuccessful(String userToken, String userId);
 
         void onGetUserAttributes(String name, String email);
     }
@@ -96,7 +96,9 @@ public class AuthenticationProvider {
     }
 
     public void signOut() {
+        Logger.log("before sign out " + userPool.getCurrentUser().getUserId());
         getCurrentUser().signOut();
+        Logger.log("after sign out " + (String.valueOf(haveCurrentUser())));
     }
 
     public void confirmReg(String code, String userId) {
@@ -123,12 +125,12 @@ public class AuthenticationProvider {
         getCurrentUser().getDetailsInBackground(getDetailsHandler);
     }
 
-    public boolean isUserSigned() {
-        return getUserId() != null;
-    }
-
     public String getUserId() {
-        return getCurrentUser().getUserId();
+        CognitoUser user = getCurrentUser();
+        if (user != null) {
+            return user.getUserId();
+        }
+        return null;
     }
 
     public boolean haveCurrentUser() {
@@ -230,8 +232,7 @@ public class AuthenticationProvider {
     private AuthenticationHandler handler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            Logger.log(userSession.getIdToken().getJWTToken());
-            signInListener.signInSuccessful(userSession.getIdToken().getJWTToken());
+            signInListener.signInSuccessful(userSession.getIdToken().getJWTToken(), userSession.getUsername());
         }
 
         @Override

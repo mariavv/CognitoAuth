@@ -1,5 +1,6 @@
 package com.maria.cognitoauth.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -66,6 +67,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.activityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void changeText(int resGreeting) {
         helloView.setText(resGreeting);
     }
@@ -78,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void close() {
         AuthAndRegTools.finishActivity(this);
+    }
+
+    @Override
+    public void close(int resultCode) {
+        //do nothing
     }
 
     @Override
@@ -107,20 +119,25 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void setUserAttributes(String name, String email) {
-        //todo show and save
+        tvPhone.setText(setProfileStr(R.string.nameStr, name));
+        tvEmail.setText(setProfileStr(R.string.emailStr, email));
     }
 
     @Override
-    public void fillProfileInfo(String login, String name, String email) {
-        tvLogin.setText(setProfileStr(R.string.loginStr, login));
+    public void fillProfileInfo(String phone, String name, String email) {
+        tvLogin.setText(setProfileStr(R.string.loginStr, phone));
         tvPhone.setText(setProfileStr(R.string.nameStr, name));
         tvEmail.setText(setProfileStr(R.string.emailStr, email));
+    }
+
+    @Override
+    public void setUser(String phone) {
+        tvLogin.setText(setProfileStr(R.string.loginStr, phone));
     }
 
     private String setProfileStr(int profileStr, String param) {
         return String.format(getString(profileStr), param);
     }
-
 
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);

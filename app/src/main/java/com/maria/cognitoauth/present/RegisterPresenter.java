@@ -68,21 +68,12 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
         //do nothing
     }
 
-    public String getUserId() {
-        String userId = authProvider.getUserId();
-        if (userId != null) {
-            return userId;
-        } else {
-            return "";
-        }
-    }
-
     private boolean isRegParamsCorrect(int nameLen, int loginLen, int emailLen, int passLen, int confirmPassLen) {
         return isParamCorrect(nameLen) && isParamCorrect(loginLen) && isParamCorrect(emailLen)
                 && isPassCorrect(passLen) && isPassCorrect(confirmPassLen);
     }
 
     public void getData(String phone, String name, String email, String password) {
-        saveData(phone, name, email, password, context);
+        saveData(phone, name, email, password, null, context);
     }
 }

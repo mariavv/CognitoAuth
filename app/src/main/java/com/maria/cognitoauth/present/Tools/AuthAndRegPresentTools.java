@@ -23,10 +23,15 @@ public class AuthAndRegPresentTools {
         return s.length();
     }
 
-    public static void saveData(String phone, String name, String email, String password, Context context) {
+    public static void saveData(String phone, String name, String email, String password, String userToken, Context context) {
         DataSaver.saveParam(DataParams.PHONE, phone, context);
         DataSaver.saveParam(DataParams.NAME, name, context);
         DataSaver.saveParam(DataParams.EMAIL, email, context);
         DataSaver.saveParam(DataParams.PASSWORD, password, context);
+        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
+    }
+
+    public static int getUserMinLength() {
+        return MIN_LENGTH;
     }
 }

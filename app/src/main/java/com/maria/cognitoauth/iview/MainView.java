@@ -1,6 +1,8 @@
 package com.maria.cognitoauth.iview;
 
 public interface MainView extends IView {
+    void close();
+
     void changeText(int resGreeting);
 
     void startAuthActivity(final int reguestCode);
@@ -13,5 +15,7 @@ public interface MainView extends IView {
 
     void setUserAttributes(String name, String email);
 
-    void fillProfileInfo(String login, String name, String email);
+    void fillProfileInfo(String phone, String name, String email);
+
+    void setUser(String phone);
 }

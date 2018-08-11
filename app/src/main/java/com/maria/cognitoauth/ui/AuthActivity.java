@@ -83,11 +83,6 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
     }
 
     @Override
-    public void close() {
-        AuthAndRegTools.finishActivity(this);
-    }
-
-    @Override
     public void say(int messageRes) {
         AuthAndRegTools.say(this, messageRes);
     }

@@ -13,6 +13,7 @@ import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTE
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.saveData;
+import static com.maria.cognitoauth.ui.Tools.UiTools.getResultOk;
 
 public class AuthPresenter implements AuthenticationProvider.SignInListener {
 
@@ -56,10 +57,9 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
     }
 
     @Override
-    public void signInSuccessful(String userToken) {
-        saveData(null, null, null, null, context);
-        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
-        view.close();
+    public void signInSuccessful(String userToken, String userId) {
+        saveData(userId, null, null, null, userToken, context);
+        view.close(getResultOk());
     }
 
     @Override

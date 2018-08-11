@@ -39,5 +39,7 @@
     <string name="reg_activity_name">Registration</string>
     <string name="profile_activity_name">Profile</string>
     <string name="confirm_success">Confirm successful</string>
+    <string name="header_emptyProfile" />
+    <string name="error_gettingRegisterParams">Some error in register result</string>
 
 </resources>

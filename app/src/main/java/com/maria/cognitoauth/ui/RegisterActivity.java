@@ -83,8 +83,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
-    public void close() {
-        finishActivity();
+    public void close(int result) {
+        setResult(result, new Intent());
+        AuthAndRegTools.finishActivity(this);
     }
 
     @Override
@@ -95,10 +96,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     public void say(String message) {
         AuthAndRegTools.say(this, message);
-    }
-
-    private void finishActivity() {
-        AuthAndRegTools.finishActivity(this);
     }
 
     private void configViews() {

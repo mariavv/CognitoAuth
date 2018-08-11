@@ -81,7 +81,8 @@ public class ConfirmRegistrationFragment extends Fragment implements ConfirmRegi
     }
 
     @Override
-    public void close() {
+    public void close(int resultCode) {
+        getActivity().setResult(resultCode);
         Objects.requireNonNull(getActivity()).finish();
     }
 

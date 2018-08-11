@@ -1,7 +1,7 @@
 package com.maria.cognitoauth.iview;
 
 public interface IView {
-    void close();
+    void close(int resultCode);
 
     void say(int messageRes);
 
