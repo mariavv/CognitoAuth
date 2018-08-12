@@ -7,8 +7,6 @@ public interface MainView extends IView {
 
     void startAuthActivity(final int reguestCode);
 
-    void startProfileActivity(final int reguestCode);
-
     void startRegisterActivity(final int reguestCode);
 
     void setGreeting(String name);

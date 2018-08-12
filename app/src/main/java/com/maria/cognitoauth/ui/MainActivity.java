@@ -108,11 +108,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void startProfileActivity(int reguestCode) {
-        startActivityForResult(ProfileActivity.start(this), reguestCode);
-    }
-
-    @Override
     public void startRegisterActivity(int reguestCode) {
         startActivityForResult(RegisterActivity.start(this), reguestCode);
     }

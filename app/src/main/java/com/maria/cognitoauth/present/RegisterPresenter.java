@@ -5,6 +5,7 @@ import android.content.Context;
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.RegisterView;
 import com.maria.cognitoauth.model.network.AuthenticationProvider;
+import com.maria.cognitoauth.util.Logger;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;

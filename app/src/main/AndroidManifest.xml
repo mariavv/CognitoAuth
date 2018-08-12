@@ -23,10 +23,6 @@
         </activity>
 
         <activity
-            android:name=".ui.ProfileActivity"
-            android:label="@string/profile_activity_name" />
-
-        <activity
             android:name=".ui.AuthActivity"
             android:label="@string/auth_activity_name"
             android:theme="@style/AuthTheme" />

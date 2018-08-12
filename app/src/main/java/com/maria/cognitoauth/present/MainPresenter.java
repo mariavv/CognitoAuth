@@ -17,7 +17,6 @@ import static com.maria.cognitoauth.ui.Tools.UiTools.getResultOk;
 
 public class MainPresenter implements AuthenticationProvider.AuthListener {
     private static final int SIGN_IN_REQUEST = 1;
-    private static final int PROFILE_REQUEST = 2;
 
     private MainView view;
 
@@ -60,7 +59,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     }
 
     public void menuHeaderClick() {
-        view.startProfileActivity(PROFILE_REQUEST);
+        view.say(context.getString(R.string.no_editable));
     }
 
     public void activityResult(int requestCode, int resultCode, Intent data) {

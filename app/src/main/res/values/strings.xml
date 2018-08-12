@@ -41,5 +41,6 @@
     <string name="confirm_success">Confirm successful</string>
     <string name="header_emptyProfile" />
     <string name="error_gettingRegisterParams">Some error in register result</string>
+    <string name="no_editable">No editable</string>
 
 </resources>
