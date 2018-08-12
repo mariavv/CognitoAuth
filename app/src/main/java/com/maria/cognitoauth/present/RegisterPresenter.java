@@ -54,7 +54,7 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
     @Override
     public void onRegSuccess(String userId) {
         view.say(R.string.regSuccess);
-        view.getData();
+        view.getUseInfo();
         view.showConfirmDialog(userId);
     }
 
@@ -73,7 +73,7 @@ public class RegisterPresenter implements AuthenticationProvider.SignUpListener 
                 && isPassCorrect(passLen) && isPassCorrect(confirmPassLen);
     }
 
-    public void getData(String phone, String name, String email, String password) {
+    public void getUserInfo(String phone, String name, String email, String password) {
         saveData(phone, name, email, password, null, context);
     }
 }

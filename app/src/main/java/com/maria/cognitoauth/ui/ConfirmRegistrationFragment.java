@@ -13,6 +13,7 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.ConfirmRegistrationView;
 import com.maria.cognitoauth.present.ConfirmRegistrationPresenter;
 import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
+import com.maria.cognitoauth.util.Logger;
 
 import java.util.Objects;
 
@@ -82,7 +83,8 @@ public class ConfirmRegistrationFragment extends Fragment implements ConfirmRegi
 
     @Override
     public void close(int resultCode) {
-        getActivity().setResult(resultCode);
+        Logger.log("   <close confirm gialog>    ");
+        Objects.requireNonNull(getActivity()).setResult(resultCode);
         Objects.requireNonNull(getActivity()).finish();
     }
 

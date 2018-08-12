@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.maria.cognitoauth.model.DataParams;
 import com.maria.cognitoauth.model.DataSaver;
+import com.maria.cognitoauth.util.Logger;
 
 public class AuthAndRegPresentTools {
     public static final int REGISTER_REQUEST = 3;
@@ -24,6 +25,7 @@ public class AuthAndRegPresentTools {
     }
 
     public static void saveData(String phone, String name, String email, String password, String userToken, Context context) {
+        Logger.log("   <<<save data>>>    " + password);
         DataSaver.saveParam(DataParams.PHONE, phone, context);
         DataSaver.saveParam(DataParams.NAME, name, context);
         DataSaver.saveParam(DataParams.EMAIL, email, context);

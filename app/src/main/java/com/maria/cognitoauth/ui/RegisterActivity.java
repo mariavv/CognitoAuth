@@ -15,6 +15,7 @@ import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.RegisterView;
 import com.maria.cognitoauth.present.RegisterPresenter;
 import com.maria.cognitoauth.ui.Tools.AuthAndRegTools;
+import com.maria.cognitoauth.util.Logger;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.getTextLength;
 import static com.maria.cognitoauth.ui.Tools.AuthAndRegTools.edGetText;
@@ -77,13 +78,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
-    public void getData() {
-        presenter.getData(phoneEd.getText().toString(), nameEd.getText().toString(),
+    public void getUseInfo() {
+        Logger.log("   <<<get data>>>    ");
+        presenter.getUserInfo(phoneEd.getText().toString(), nameEd.getText().toString(),
                 emailEd.getText().toString(), passEd.getText().toString());
     }
 
     @Override
     public void close(int result) {
+        Logger.log("   <<<close register activity>>>    ");
         setResult(result, new Intent());
         AuthAndRegTools.finishActivity(this);
     }
@@ -110,11 +113,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
 
         //todo
-        phoneEd.setText("890010");
+        phoneEd.setText("89001");
         nameEd.setText("qwer");
         emailEd.setText("testproj28@gmail.com");
-        passEd.setText("qqqqqq");
-        confirmPassEd.setText("qqqqqq");
+        passEd.setText("qqqqq");
+        confirmPassEd.setText(passEd.getText().toString());
 
         addTextChagedListener(phoneEd);
         addTextChagedListener(nameEd);

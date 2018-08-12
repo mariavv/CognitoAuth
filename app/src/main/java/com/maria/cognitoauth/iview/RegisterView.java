@@ -5,5 +5,5 @@ public interface RegisterView extends IView {
 
     void showConfirmDialog(String userId);
 
-    void getData();
+    void getUseInfo();
 }

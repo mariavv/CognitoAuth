@@ -13,7 +13,6 @@ import com.maria.cognitoauth.util.Logger;
 
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTER_REQUEST;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.getUserMinLength;
-import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.saveData;
 import static com.maria.cognitoauth.ui.Tools.UiTools.getResultOk;
 
 public class MainPresenter implements AuthenticationProvider.AuthListener {
@@ -75,6 +74,12 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
 
                 return;
             case REGISTER_REQUEST:
+                Logger.log(" <<<REGISTER_REQUEST>>>   " );
+                /*try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    System.err.println(e.getMessage());
+                }*/
                 signIn();
 
                 return;
@@ -88,14 +93,15 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
 
     @Override
     public void signInSuccessful(String userToken, String userId) {
-        Logger.log("main presenter: signInSuccessful");
-        saveData(userId, null, null, null, userToken, context);
+        Logger.log("main presenter: signInSuccessful, user:   " + userId);
+        DataSaver.saveParam(DataParams.TOKEN, userToken, context);
+        //saveData(userId, null, null, null, userToken, context);
         setUserInfo(userId);
     }
 
     @Override
     public void signOutSuccessful() {
-        view.changeText(R.string.hello_world);
+        removeGreeting();
         view.fillProfileInfo(getEmptyProfileString(), getEmptyProfileString(), getEmptyProfileString());
     }
 
@@ -113,13 +119,13 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     }
 
     private void checkAuth() {
-        if (authProvider.haveCurrentUser()) {
+        /*if (authProvider.haveCurrentUser()) {
             Logger.log("main presenter  2 begin" + authProvider.getUserId());
             String userId = authProvider.getUserId();
             setUserInfo(userId);
             Logger.log("main presenter  2 end");
             return;
-        }
+        }*/
 
         signIn();
     }
@@ -127,7 +133,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
     private void signIn() {
         String login = DataSaver.getParam(DataParams.PHONE, DataParams.DEF_VALUE, context);
         String password = DataSaver.getParam(DataParams.PASSWORD, DataParams.DEF_VALUE, context);
-        Logger.log("main presenter  " + login);
+        Logger.log("main presenter  " + login + " " + password);
         if (login != null && password != null) {
             Logger.log("main presenter  1 begin");
             authProvider.signIn(login, password);
@@ -135,17 +141,23 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
             return;
         }
 
-        view.changeText(R.string.hello_world);
+        setUserInfo(getEmptyProfileString());
+        removeGreeting();
     }
 
     private void setUserInfo(String userId) {
-        view.changeText(userId);
         view.setUser(userId);
         if (userId.length() >= getUserMinLength()) {
+            view.setGreeting(userId);
             authProvider.getUserAttributes();
         } else {
-            setUserAttributes(getEmptyProfileString(), getEmptyProfileString());
+            removeGreeting();
+            view.setUserAttributes(getEmptyProfileString(), getEmptyProfileString());
         }
+    }
+
+    private void removeGreeting() {
+        view.setGreeting(R.string.hello_world);
     }
 
     private void signOut() {

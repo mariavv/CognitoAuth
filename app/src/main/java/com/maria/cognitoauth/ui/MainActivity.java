@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void changeText(int resGreeting) {
+    public void setGreeting(int resGreeting) {
         helloView.setText(resGreeting);
     }
 
     @Override
-    public void changeText(String name) {
+    public void setGreeting(String name) {
         helloView.setText(setProfileStr(R.string.hello_user, name));
     }
 

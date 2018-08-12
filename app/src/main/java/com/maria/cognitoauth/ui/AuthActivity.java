@@ -105,7 +105,7 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
     }
 
     @Override
-    public void getData() {
+    public void getUseInfo() {
         //do nothing
     }
 

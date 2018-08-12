@@ -13,6 +13,7 @@ import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.REGISTE
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isParamCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.isPassCorrect;
 import static com.maria.cognitoauth.present.Tools.AuthAndRegPresentTools.saveData;
+import static com.maria.cognitoauth.ui.Tools.UiTools.getResultCanceled;
 import static com.maria.cognitoauth.ui.Tools.UiTools.getResultOk;
 
 public class AuthPresenter implements AuthenticationProvider.SignInListener {
@@ -34,7 +35,7 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
     }
 
     public void backBtnPressed() {
-        view.close(Activity.RESULT_CANCELED);
+        view.close(getResultCanceled());
     }
 
     public void textChanged(int loginLength, int passLength) {

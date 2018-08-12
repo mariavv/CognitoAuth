@@ -19,19 +19,27 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetail
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.regions.Regions;
+import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.util.Logger;
 
 import java.util.Map;
 
 
 public class AuthenticationProvider {
-    private static final String USER_POOL_ID = "us-east-2_sI1ivFCf3";
-    private static final String CLIENT_ID = "2838caidiid33fgpn365ia4bb1";
-    private static final String CLIENT_SECRET = "11vuj0q1iuir9rq7pej9l7i9tdim61lnjrbtjguvg1a9ub1hs9ck";
+    private static final String USER_POOL_ID_DEF = "us-east-2_sI1ivFCf3";
+    private static final String CLIENT_ID_DEF = "2838caidiid33fgpn365ia4bb1";
+    private static final String CLIENT_SECRET_DEF = "11vuj0q1iuir9rq7pej9l7i9tdim61lnjrbtjguvg1a9ub1hs9ck";
+    private static final String REGION_DEF = "us-east-2";
+
+    private static final String USER_POOL_ID = "us-east-2_o7jwUazb7";
+    private static final String CLIENT_ID = "56foj6rrh4vdqaq728fu9qil37";
+    private static final String CLIENT_SECRET = "1b3oeut42cr03jhqhepeimo6crn2rtqbjl0lkvnsgejodp5053h5";
     private static final String REGION = "us-east-2";
 
     private static final String ATTR_EMAIL = "email";
     private static final String ATTR_NAME = "preferred_username";
+
+    private static final String USER_NOT_EXIST = "User not exist";
 
     private Listener listener;
     private SignUpListener signUpListener;
@@ -98,7 +106,8 @@ public class AuthenticationProvider {
     public void signOut() {
         Logger.log("before sign out " + userPool.getCurrentUser().getUserId());
         getCurrentUser().signOut();
-        Logger.log("after sign out " + (String.valueOf(haveCurrentUser())));
+        Logger.log("after sign out: haveCurrentUser() & getCurrentUser().getUserId(): "
+                + (String.valueOf(haveCurrentUser())) + " " + getUserId());
     }
 
     public void confirmReg(String code, String userId) {
@@ -115,13 +124,19 @@ public class AuthenticationProvider {
 
     public void signIn(String login, String password) {
         if (userPool.getUser(login) != null) {
+            Logger.log("<<<provider login>>>  " + login);
             this.login = login;
             this.password = password;
-            getCurrentUser().getSessionInBackground(handler);
+            Logger.log("<<<provider this.login  >>>  " + this.login);
+            //getCurrentUser().getSessionInBackground(handler);
+            userPool.getUser(login).getSessionInBackground(handler);
+        } else {
+            signInListener.onFailure(new Exception(USER_NOT_EXIST));
         }
     }
 
     public void getUserAttributes() {
+        Logger.log("<<<get attr user:>>>  " + getCurrentUser().getUserId());
         getCurrentUser().getDetailsInBackground(getDetailsHandler);
     }
 
@@ -133,7 +148,7 @@ public class AuthenticationProvider {
         return null;
     }
 
-    public boolean haveCurrentUser() {
+    private boolean haveCurrentUser() {
         return getCurrentUser() != null;
     }
 
@@ -149,10 +164,6 @@ public class AuthenticationProvider {
     }
 
     private void createCognitoUserPool(Context context) {
-        final String USER_POOL_ID = "us-east-2_o7jwUazb7";
-        final String CLIENT_ID = "56foj6rrh4vdqaq728fu9qil37";
-        final String CLIENT_SECRET = "1b3oeut42cr03jhqhepeimo6crn2rtqbjl0lkvnsgejodp5053h5";
-        final String REGION = "us-east-2";
         userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, Regions.fromName(REGION));
     }
 
@@ -191,19 +202,6 @@ public class AuthenticationProvider {
         });
     }
 
-    private GenericHandler ConfHandler = new GenericHandler() {
-
-        @Override
-        public void onSuccess() {
-            // Confirmation code was successfully sent!
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            // Confirmation code request failed, probe exception for details
-        }
-    };
-
     private GenericHandler confirmationCallback = new GenericHandler() {
         @Override
         public void onSuccess() {
@@ -225,6 +223,7 @@ public class AuthenticationProvider {
 
         @Override
         public void onFailure(Exception exception) {
+            Logger.log(" <<<get attr>>>     " + exception.getMessage());
             authListener.onFailure(exception);
         }
     };
@@ -232,6 +231,7 @@ public class AuthenticationProvider {
     private AuthenticationHandler handler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+            Logger.log("  <<<auth processs: login & userSession.getUsername()  :   >>>" + login + " " + userSession.getUsername());
             signInListener.signInSuccessful(userSession.getIdToken().getJWTToken(), userSession.getUsername());
         }
 
@@ -243,6 +243,7 @@ public class AuthenticationProvider {
             } else {
                 uId = userID;
             }
+            Logger.log("  <<<auth processs: login & userID  :   >>>" + login + " " + userID);
             AuthenticationDetails authDetails = new AuthenticationDetails(uId, password, null);
 
             continuation.setAuthenticationDetails(authDetails);
