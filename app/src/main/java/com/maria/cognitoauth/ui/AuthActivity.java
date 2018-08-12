@@ -70,6 +70,13 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.activityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public void onDestroy() {
         presenter.detachView();

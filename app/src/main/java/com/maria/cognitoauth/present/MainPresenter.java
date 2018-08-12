@@ -75,11 +75,7 @@ public class MainPresenter implements AuthenticationProvider.AuthListener {
                 return;
             case REGISTER_REQUEST:
                 Logger.log(" <<<REGISTER_REQUEST>>>   " );
-                /*try {
-                    Thread.sleep(15000);
-                } catch (InterruptedException e) {
-                    System.err.println(e.getMessage());
-                }*/
+
                 signIn();
 
                 return;

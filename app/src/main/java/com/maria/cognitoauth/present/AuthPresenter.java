@@ -2,6 +2,7 @@ package com.maria.cognitoauth.present;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.maria.cognitoauth.R;
 import com.maria.cognitoauth.iview.AuthView;
@@ -55,6 +56,21 @@ public class AuthPresenter implements AuthenticationProvider.SignInListener {
     public void loginBtnPressed(String login, String pass) {
         signOut();
         login(login, pass);
+    }
+
+    public void activityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != getResultOk()) {
+            return;
+        }
+
+        switch (requestCode) {
+            case REGISTER_REQUEST:
+                signOut();
+                authProvider.signIn(DataSaver.getParam(DataParams.PHONE, null, context),
+                        DataSaver.getParam(DataParams.PASSWORD, null, context));
+
+                return;
+        }
     }
 
     @Override

@@ -109,20 +109,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         confirmPassEd = findViewById(R.id.confirmPassEd);
         signupBtn = findViewById(R.id.registerBtn);
 
-        nameEd.setText(getIntent().getStringExtra(ARG_LOGIN));
-        passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
-
         //todo
         phoneEd.setText("89001");
         nameEd.setText("qwer");
         emailEd.setText("testproj28@gmail.com");
         passEd.setText("qqqqq");
+
+        nameEd.setText(getIntent().getStringExtra(ARG_LOGIN));
+        passEd.setText(getIntent().getStringExtra(ARG_PASSWORD));
         confirmPassEd.setText(passEd.getText().toString());
 
         addTextChagedListener(phoneEd);
         addTextChagedListener(nameEd);
         addTextChagedListener(emailEd);
         addTextChagedListener(passEd);
+        addTextChagedListener(confirmPassEd);
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override

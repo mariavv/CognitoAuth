@@ -33,7 +33,8 @@
 
         <activity
             android:name=".ui.RegisterActivity"
-            android:label="@string/reg_activity_name" />
+            android:label="@string/reg_activity_name"
+            android:theme="@style/AuthTheme" />
     </application>
 
 </manifest>
