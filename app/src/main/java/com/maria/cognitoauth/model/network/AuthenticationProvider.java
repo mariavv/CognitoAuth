@@ -128,7 +128,6 @@ public class AuthenticationProvider {
             this.login = login;
             this.password = password;
             Logger.log("<<<provider this.login  >>>  " + this.login);
-            //getCurrentUser().getSessionInBackground(handler);
             userPool.getUser(login).getSessionInBackground(handler);
         } else {
             signInListener.onFailure(new Exception(USER_NOT_EXIST));

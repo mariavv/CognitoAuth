@@ -109,7 +109,7 @@ public class AuthActivity extends AppCompatActivity implements AuthView {
 
     @Override
     public void showConfirmDialog(String userId) {
-
+        //todo resend confirm code
     }
 
     @Override
